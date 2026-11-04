@@ -186,7 +186,7 @@ no code editor (or if you're not sure you have one), you need to install
 one. There is actually a large choice but I will only list here the most
 relevant ones:
 
-* [VScode]
+* [VS Code]
 * [Atom]
 * [Notepad++]
 * [Sublime Text]
@@ -416,4 +416,5 @@ Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/
 [Atom]:         https://atom.io/
 [Notepad++]:    https://notepad-plus-plus.org/
 [Sublime Text]: https://www.sublimetext.com/
+[VS Code]     : https://code.visualstudio.com/download
 <!---------------------------------------------------------------------------->
