@@ -416,5 +416,5 @@ Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/
 [Atom]:         https://atom.io/
 [Notepad++]:    https://notepad-plus-plus.org/
 [Sublime Text]: https://www.sublimetext.com/
-[VS Code]     : https://code.visualstudio.com/download
+[VS Code]:      https://code.visualstudio.com/download
 <!---------------------------------------------------------------------------->
