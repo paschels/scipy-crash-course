@@ -186,6 +186,7 @@ no code editor (or if you're not sure you have one), you need to install
 one. There is actually a large choice but I will only list here the most
 relevant ones:
 
+* [VScode]
 * [Atom]
 * [Notepad++]
 * [Sublime Text]
