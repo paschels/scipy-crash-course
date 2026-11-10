@@ -1,4 +1,5 @@
 # Documentation, tests and the Game of Life
+**Pascal Helson** - [pascal.helson@u-bordeaux.fr](mailto:pascal.helson@u-bordeaux.fr)  
 Lecture notes from the scientific Python crash course, following
 *Computing, visualizing and automating*.  
 This work is licensed under [Creative Commons Attribution 4.0 International
