@@ -1,24 +1,28 @@
-
 ## Installation
 
 
 This lesson aims at providing the student with a clean development environment,
-including Python installation and essential packages (using the [Anaconda]
-installer), a decent text editor (e.g. [emacs], [vim], [atom], [notepad++]), a
-git command line and a shell. We'll also introduce the Python & [IPython]
-shells, the [Jupyter] notebook and explains how to run a python
-script from the command line or from inside the [IPython] shell.
+including a Python installation and essential packages (using the [Miniforge]
+installer) and a shell. We'll use the text editor that already comes with your
+operating system to write our first script, then introduce the Python &
+[IPython] shells, and explain how to run a Python script from the command line
+or from inside the [IPython] shell. IDEs such as Spyder and JupyterLab will
+come in the next session.
+
+The key idea of this lesson: **Python is a program that runs your code. An
+editor or an IDE is just an interface to write code and to ask Python to run
+it.** You don't need an IDE to write Python code.
 
 <br/>
 
 **Contents**
 * [Objectives](#objectives)
-* [Installation](#installation) ..............................................................................................................................................
+* [Installation](#installation-) ..............................................................................................................................................
   <img src="https://img.shields.io/badge/-Duration:_30mn-black.svg?style=flat-square" align="right"/>
-* [Python, IPython & Jupyter](#python-ipython--jupyter-) ....................................................................................................................
-  <img src="https://img.shields.io/badge/-Duration:_15mn-black.svg?style=flat-square" align="right"/>
+* [Python, IPython & your first script](#python-ipython--your-first-script-) ................................................................................................
+  <img src="https://img.shields.io/badge/-Duration:_20mn-black.svg?style=flat-square" align="right"/>
 * [Testing your installation](#testing-your-installation-) .........................................................................................................................
-  <img src="https://img.shields.io/badge/-Duration:_15mn-black.svg?style=flat-square" align="right"/>
+  <img src="https://img.shields.io/badge/-Duration:_10mn-black.svg?style=flat-square" align="right"/>
 
 
 <br/><br/><br/><br/>
@@ -27,28 +31,27 @@ script from the command line or from inside the [IPython] shell.
 
 The primary goals of this lesson are:
 
-* To ensure you have a clean Python installation (including [Jupyter])
-* To install a decent text editor on your system
-* To type a few Python lines and to run a python script
-  
-### Convention 
+* To ensure you have a clean Python installation, without administrator rights
+* To write a Python script with the text editor of your system and run it
+* To type a few Python lines in the Python and IPython shells
+* To understand that Python runs your code, whatever tool you use to write it
 
-During this introduction, we'll use three different kind of console, namely
-`shell` (or powershell), `Python` and `IPython`. To help you distinguish them,
-there will be a small colored icon in front of them:
+### Convention
+
+During this introduction, we'll use three different kinds of console, namely
+`shell`, `Python` and `IPython`. To help you distinguish them, there will be a
+small colored icon in front of them:
 
 <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
 
 ``` bash
-GNU bash, version 3.2.57(1)-release-(x86_64-apple-darwin18)
-$ _
+(base) $ _
 ```
 
 <img src="https://img.shields.io/badge/-Python-blue.svg?style=flat-square" align="left"/>
 
 ``` Pycon
-Python 3.7.2 (default, Feb 12 2019, 08:15:36)
-[Clang 10.0.0 (clang-1000.11.45.5)] on darwin
+Python 3.12.7 | packaged by conda-forge | ...
 Type "help", "copyright", "credits" or "license" for more information.
 >>> _
 ```
@@ -56,193 +59,200 @@ Type "help", "copyright", "credits" or "license" for more information.
 <img src="https://img.shields.io/badge/-IPython-orange.svg?style=flat-square" align="left"/>
 
 ``` IPython
-Python 3.7.2 (default, Feb 12 2019, 08:15:36)
+Python 3.12.7 | packaged by conda-forge | ...
 Type 'copyright', 'credits' or 'license' for more information
-IPython 7.0.1 -- An enhanced Interactive Python. Type '?' for help.
+IPython 8.29.0 -- An enhanced Interactive Python. Type '?' for help.
 
 In [1]: _
 ```
 
-In the examples above, `>>>` is the Python prompt and does not need to be
-typed. For IPython, the prompt is more likely to be something like
-`[12]:`. There is also a second prompt (`...`) meaning the previous line is not
-ended and needs to be terminated. This is for example the case when you enter a
-parenthese or an unbalanced expression (e.g. number of opening parenthesis is
-greater than the number of closing parenthesis).
+Which shell to use depends on your system:
 
-If you type a bash command in a Python shell or a Python command in a Bash
-shell, the console will report an error.
+* **Linux and macOS**: the regular *Terminal* application.
+* **Windows**: the *Miniforge Prompt* (installed below). Do **not** use
+  PowerShell or the regular command prompt: `conda` won't be found there.
 
-> **Note**: to exit a Python shell or a regular shell, you can type `exit()` or
-type `Control-D`.
+In the examples, `$` is the shell prompt, `>>>` is the Python prompt and
+`In [1]:` is the IPython prompt: they must not be typed. The word in
+parentheses at the beginning of the shell prompt, such as `(base)` or `(sci)`,
+tells you which conda environment is active (more on this below). There is
+also a second Python prompt (`...`) meaning the previous line is not ended and
+needs to be terminated. This is for example the case when you enter an
+unbalanced expression (e.g. the number of opening parentheses is greater than
+the number of closing parentheses).
+
+If you type a shell command in a Python shell or a Python command in a shell,
+the console will report an error. This is the most common beginner mistake, so
+always look at the prompt first!
+
+> **Note**: to exit a Python or IPython shell, type `exit()`.
 
 
 <br/><br/>
 ## Installation <img src="https://img.shields.io/badge/-Duration:_30mn-black.svg?style=flat-square" align="right"/>
 
-As of today (2019), Python exists mainly in two flavors: Python 2.x
-(deprecated) and Python 3.x. On some systems, the 2.x version is already
-installed and for some systems, the 3.x version might be installed as well (or
-instead). However, we cannot use any of them because we'll need to install
-several packages that might interfere with the system packages. We'll thus have
-to install our own version using [Anaconda] by Continuum Analytics which is a
-free Python distribution (including for commercial use and redistribution) and
-includes more than 400 of the most popular Python packages for science, math,
-engineering, and data analysis.
+Python might already be installed on your system. However, we won't use it
+because we'll need to install several packages that might interfere with the
+system packages. We'll thus install our own Python using [Miniforge], a minimal
+installer for the `conda` package manager that uses the community-driven
+[conda-forge] repository. Miniforge is free software, installs in your home
+folder (**no administrator rights needed**) and does not depend on the
+commercial Anaconda repository.
 
-[Anaconda] is available for several architectures:
+### Is conda already installed?
 
-* [Anaconda for windows](https://www.anaconda.com/distribution/#windows)
-  (Python 3.7 version and the 64-Bit Graphical Installer (614.3 MB))  
-* [Anaconda for linux](https://www.anaconda.com/distribution/#linux)
-  (Python 3.7 version and the 64-Bit (x86) Installer (652.5 MB)
-* [Anaconda for OSX](https://www.anaconda.com/distribution/#macos)
-  (Python 3.7 version and the 64-Bit Graphical Installer (652.7 MB))
+Before installing anything, check whether conda (Miniforge, Anaconda or
+Miniconda) is already on your computer:
 
-When asked whether to install Visual Studio, choose yes if you're on Windows.
+* **Linux and macOS**: open a Terminal and type `conda --version`. If a version
+  number is displayed, conda is already installed. If you get
+  `command not found`, it is not.
+* **Windows**: open the Start menu and search for "Miniforge", "Anaconda" and
+  "Miniconda". If a *Miniforge Prompt*, *Anaconda Prompt* or *Miniconda Prompt*
+  shortcut appears, conda is already installed. Don't rely on PowerShell or the
+  regular command prompt to check, conda is usually invisible there.
 
-Once installation has finished, we'll need to test it.  
+If conda is **already installed**, don't reinstall it: skip to
+[Checking the configuration](#checking-the-configuration) and use the prompt
+you found (e.g. *Anaconda Prompt*) wherever this lesson says *Miniforge Prompt*.
 
-> **Note** that If you're using a Windows machine, you'll need to install
-> [powershell](https://docs.microsoft.com/en-us/powershell/) that let you
-> manage your computer from the command line.
+### Installing Miniforge
 
+Download the installer for your system from the [Miniforge] page:
 
-You can now open a terminal (or powershell on Windows) and test if you've
-access to the `conda` command:
+* **Windows**: `Miniforge3-Windows-x86_64.exe`. Run it and:
+  * choose **"Just Me (recommended)"** (no administrator rights needed);
+  * keep the proposed installation folder;
+  * do **not** add Miniforge to the `PATH`.
+
+  If Windows displays *"Windows protected your PC"*, click *"More info"* then
+  *"Run anyway"* (if your IT policy allows it).
+
+* **Linux and macOS**: open a Terminal and type (the installer matching your
+  machine is chosen automatically):
+
+  <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
+
+  ``` bash
+  $ curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+  $ bash Miniforge3-$(uname)-$(uname -m).sh
+  ```
+
+  Accept the license, keep the proposed folder (`~/miniforge3`) and answer
+  `yes` when asked to initialize conda. Never use `sudo` here.
+
+Then open a **new** shell:
+
+* **Linux and macOS**: close and reopen the Terminal.
+* **Windows**: open the Start menu, type "Miniforge" and click on
+  **Miniforge Prompt**.
+
+The prompt should now start with `(base)`. Test that you have access to the
+`conda` command:
 
 <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
 
 ``` bash
-$ conda --version
-conda 4.5.12
+(base) $ conda --version
+conda 25.x.x
 ```
 
-Since the installer might not be up to date (depending on when it was build),
-you may need to update your anaconda installation:
+### Checking the configuration
+
+Check that packages come from conda-forge only:
 
 <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
 
 ``` bash
-$ conda update --all
-Collecting package metadata: done
-Solving environment: done
+(base) $ conda config --show channels
+channels:
+  - conda-forge
+```
 
-## Package Plan ##
+If `defaults` also appears (this happens when Anaconda or Miniconda was already
+installed), replace it with conda-forge:
 
+<img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
+
+``` bash
+(base) $ conda config --add channels conda-forge
+(base) $ conda config --remove channels defaults
+(base) $ conda config --set channel_priority strict
+```
+
+> **Note**: this only changes where *future* packages come from. Your existing
+> environments and the usual `conda` commands keep working as before.
+
+### Creating an environment for the course
+
+We don't install anything in the `base` environment. Instead, we create a
+dedicated **environment** named `sci`, with Python and the packages we need:
+
+<img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
+
+``` bash
+(base) $ conda create -n sci python=3.12 numpy scipy matplotlib ipython cython numba
 ...
-
-Proceed ([y]/n)?
-
+Proceed ([y]/n)? y
 ...
-
-Preparing transaction: done
-Verifying transaction: done
-Executing transaction: done
-
-$ conda --version
-conda 4.6.4
+(base) $ conda activate sci
+(sci) $ _
 ```
 
-> **Note**: If the `conda` does not work, you'll need to open the Anaconda
-> navigator and to update the packages through the interface. The reason why
-> the `conda` does not work might be linked to a `PATH` problem. In such case,
-> it might be worth to reboot your machine to see if this solves the problem.
+The prompt now starts with `(sci)`: this means that the `python` command will
+use the Python of this environment. **Every time you open a new shell**, start
+by typing `conda activate sci`.
 
-
-### Git, a distributed version control system 
-
-We now need to install Git which is not related to Python and has not been
-installed during the previous step. Depending on your system, it might be
-already installed but most probably it is not up to date and this is the reason
-why we'll install our own version. Download the version for your system and
-proceed with installation:
-
-* [Windows](https://git-scm.com/downloads/win)
-* [Linux](https://git-scm.com/download/linux)
-* [Mac](https://git-scm.com/download/mac)
-
-Once installation has finished, you can type:
-
-<img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
-
-``` bash
-$ git --version
-2.20.1
-```
-
-> **Note**: As for `conda`, this command may not work if your `PATH` has not
-> been updated properly. You can try starting a new terminal and/or reboot
-> your machine to see if this solves the problem.
-
-
-
-### Code editor
-
-The last thing we need to install is a decent code editor. You might have one
-already installed on your system and if you're faimilar with it, no need to
-install another one. Still, you'll need to configure it properly. If you have
-no code editor (or if you're not sure you have one), you need to install
-one. There is actually a large choice but I will only list here the most
-relevant ones:
-
-* [VS Code]
-* [Atom]
-* [Notepad++]
-* [Sublime Text]
-* [Emacs] (powerful but difficult for a beginner)
-* [vim] (powerful but difficult for a beginner)
-
-Whatever the editor you chose, you will need to configure it to **not** use
-tabulations but to insert spaces (e.g. 4) when you press the `tab` key. This is
-important because if you don't do it and mix spaces and tabulations, Python
-will complain (it is not allowed) and using only tabs is generally a bad
-idea. The way to configure this is editor dependent so I'll let you search how
-to do it in your preferred editor.
-
+> **Note**: if downloads fail (`HTTP`, `SSL` or `CondaHTTPError` errors), your
+> network probably goes through a proxy: contact your IT department.
 
 
 <br/><br/>
-## Python, IPython & Jupyter <img src="https://img.shields.io/badge/-Duration:_15mn-black.svg?style=flat-square" align="right"/>
+## Python, IPython & your first script <img src="https://img.shields.io/badge/-Duration:_20mn-black.svg?style=flat-square" align="right"/>
 
-You are now ready to start using Python and there are several ways to do that:
+You are now ready to start using Python, and there are two basic ways to do
+that:
 
 1. You can start a Python or IPython shell and type some Python commands
-2. You can write a Python script and execute it
-3. You can start the Jupyter notebook and type some Python code in the browser  
-   (and save your code and results in various formats such as PDF or HTML)
+2. You can write a Python script in a text editor and ask Python to execute it
 
-The Python shell can be started using the command `python` or `python3`:
+No IDE is needed for either of them.
+
+### The Python shell
+
+The Python shell can be started using the command `python` (make sure the
+`sci` environment is active):
 
 <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
 
 ``` Pycon
-$ Python
-Python 3.7.2 (default, Feb 12 2019, 08:15:36)
-[Clang 10.0.0 (clang-1000.11.45.5)] on darwin
+(sci) $ python
+Python 3.12.7 | packaged by conda-forge | ...
 Type "help", "copyright", "credits" or "license" for more information.
 >>> _
 ```
 
-Once inside the sell, you can start typing command:
+Once inside the shell, you can start typing commands:
 
 <img src="https://img.shields.io/badge/-Python-blue.svg?style=flat-square" align="left"/>
 
 ``` Pycon
 >>> print("Hello world!")
 Hello world!
+>>> exit()
 ```
 
+### The IPython shell
 
-The IPython shell can be started using the command `ipython` or `ipython3`:
+The IPython shell can be started using the command `ipython`:
 
 <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
 
 ``` Pycon
-$ IPython
-Python 3.7.2 (default, Dec 29 2018, 00:00:04)
+(sci) $ ipython
+Python 3.12.7 | packaged by conda-forge | ...
 Type 'copyright', 'credits' or 'license' for more information
-IPython 7.2.0 -- An enhanced Interactive Python. Type '?' for help.
+IPython 8.29.0 -- An enhanced Interactive Python. Type '?' for help.
 
 In [1]: _
 ```
@@ -251,83 +261,107 @@ It works pretty much like the default Python shell and you can type commands:
 
 <img src="https://img.shields.io/badge/-IPython-orange.svg?style=flat-square" align="left"/>
 
-``` Pycon
+``` IPython
 In [1]: print("Hello world!")
 Hello world!
 ```
 
-Both shells allow to enter Python commands, but IPython offers a set of
-supplementary commands as well as some goodies such as code completion and
-interactive figures. If you don't which one to use, choose IPython (you'll
-thank me later).
+Both shells allow you to enter Python commands, but IPython offers a set of
+supplementary commands as well as some goodies such as code completion (press
+`Tab`) and interactive figures. If you don't know which one to use, choose
+IPython. Note that IPython is not a different Python: it is a nicer interface
+on top of the same Python.
 
+### Writing a script with your system's text editor
 
-Using the shell is fine for short code snippets, but as soon as you will want
-to write longer program, you'll need first to write your code in a text editor
-and then you will execute your code. Let me show you with a very simple script.
+Using a shell is fine for short code snippets, but as soon as you want to write
+longer programs, you'll first write your code in a file and then ask Python to
+execute it. A Python script is just a **plain text file**: any text editor can
+write it. Let's use the one that already comes with your system.
 
-Open your text editor and write:
+**1. Create a folder for the course**, e.g. `python-course`, wherever you like
+(for instance in your Documents folder).
 
-```
+**2. Open your system's default text editor:**
+
+* **Windows**: *Notepad* (Start menu, type "Notepad").
+* **macOS**: *TextEdit* (Applications folder, or `Cmd+Space` and type
+  "TextEdit"). Before typing, choose *Format > Make Plain Text*, and disable
+  *Edit > Substitutions > Smart Quotes*: curly quotes `“ ”` would break your
+  code.
+* **Linux**: *Text Editor* or *gedit* (GNOME, e.g. Ubuntu), *Kate* or *KWrite*
+  (KDE).
+
+**3. Type exactly this single line:**
+
+```python
 print("Hello world!")
 ```
 
-and save the file as `hello.py`. The `.py` is the regular file extension used
-for Python programs. You are free to use any exension you like, but using `.py`
-is a good idea since the operating system can identify the file as being a
-Python script. 
+**4. Save the file as `hello.py`** in your `python-course` folder. The `.py`
+extension tells everyone (including your system) that this is a Python script.
+Be careful:
 
-Take note on where you saved your file because you'll need to go to this place
-in the shell in order to be able to run it (you can also use the absolute path
-to execute it but it is less convenient.
+* **Windows (Notepad)**: in the *Save as* dialog, choose *"All files (\*.\*)"*
+  as type, otherwise the file will be saved as `hello.py.txt`. Keep the
+  *UTF-8* encoding.
+* **macOS (TextEdit)**: if asked, uncheck *"If no extension is provided, use
+  .txt"*, or choose *"Use .py"* when TextEdit asks which extension to keep.
+
+**5. Run the script with Python.** In your shell, go to the folder where you
+saved the file with the `cd` command. Tip: type `cd ` (with a space), then drag
+and drop the folder from your file explorer into the shell window: its full
+path will be pasted for you. Then press `Enter` and run the script:
 
 <img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
 
-``` Bash
-# Replace the path with the path where you saved your script
-$ cd ~/GitHub/scipy-crash-course/examples 
-$ python hello.py
+``` bash
+# Replace the path with the folder where you saved your script
+(sci) $ cd Documents/python-course
+(sci) $ python hello.py
 Hello world!
 ```
 
-If you run the above command, Python will terminate as soon as your program
-has ended. If you want to stay within the Python interpreter, you'll have to use
-the `-i` switch (interactive mode) that tells Python to not exit once the program
-has finished.
+That's it: you wrote a program with a simple text editor and Python executed
+it. **The editor only writes text; Python runs it.**
 
-The IPython shell allows you to run a script through the magic
-command `%run` (there are many [other magic commands](https://ipython.org/ipython-doc/3/interactive/magics.html)).
+If you run the above command, Python terminates as soon as your program has
+ended. If you want to stay within the Python interpreter afterwards (for
+example to inspect your variables), use the `-i` switch (interactive mode):
+
+<img src="https://img.shields.io/badge/-Shell-black.svg?style=flat-square" align="left"/>
+
+``` bash
+(sci) $ python -i hello.py
+Hello world!
+>>> _
+```
+
+The IPython shell can also run a script, through the magic command `%run`
+(there are many [other magic commands](https://ipython.readthedocs.io/en/stable/interactive/magics.html)).
+Start `ipython` from the folder containing `hello.py`, then:
 
 <img src="https://img.shields.io/badge/-IPython-orange.svg?style=flat-square" align="left"/>
 
-```IPython
+``` IPython
 In [1]: %run hello.py
 Hello world!
 ```
 
-Last, but not least, you can use the [Jupyter] notebook that is an open-source
-web application that allows you to create and share documents that contain live
-code, equations, visualizations and narrative text. It's a very powerful tool
-and is used by an increasing number of researcher.
-
-![https://blog.jupyter.org/we-analyzed-1-million-jupyter-notebooks-now-you-can-too-guest-post-8116a964b536](data/notebook.png)
-
-If you want to get started with Jupyter notebook, you better read the
-[tutorial](https://jupyter.readthedocs.io/en/latest/running.html) at
-jupiter.org or this nice
-[tutorial](https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook)
-at datacamp.
-
+> **About indentation**: Python uses indentation (spaces at the beginning of
+> lines) to structure code. Always indent with **4 spaces**, never with
+> tabulations: mixing both makes Python complain. Simple editors like Notepad
+> or TextEdit insert a tabulation when you press `Tab`, so type the spaces
+> yourself.
 
 
 <br/><br/>
-## Testing your installation <img src="https://img.shields.io/badge/-Duration:_15mn-black.svg?style=flat-square" align="right"/>
+## Testing your installation <img src="https://img.shields.io/badge/-Duration:_10mn-black.svg?style=flat-square" align="right"/>
 
-
-It's now time to check our installation to see if everything is ok.  At this
-point, no need yet to understand what you're typing but we need to check if
-some important packages are present with the proper version.
-
+It's now time to check our installation to see if everything is ok. At this
+point, no need yet to understand what you're typing, but we need to check that
+some important packages are present with the proper version. Start `python` in
+the `sci` environment and type:
 
 **Checking for numpy**
 
@@ -336,9 +370,7 @@ some important packages are present with the proper version.
 ``` pycon
 >>> import numpy
 >>> print(numpy.__version__)
-1.15.2
->>> numpy.test() # This can last a few seconds
-..........................
+2.1.3
 ```
 
 **Checking for scipy**
@@ -348,9 +380,7 @@ some important packages are present with the proper version.
 ``` pycon
 >>> import scipy
 >>> print(scipy.__version__)
-1.1.0
->>> scipy.test() # This can last several minutes
-...........................
+1.14.1
 ```
 
 **Checking for matplotlib**
@@ -360,7 +390,7 @@ some important packages are present with the proper version.
 ``` pycon
 >>> import matplotlib
 >>> print(matplotlib.__version__)
-3.0.0
+3.9.2
 ```
 
 **Checking for cython**
@@ -370,7 +400,7 @@ some important packages are present with the proper version.
 ``` pycon
 >>> import cython
 >>> print(cython.__version__)
-0.28.2
+3.0.11
 ```
 
 **Checking for numba**
@@ -380,16 +410,13 @@ some important packages are present with the proper version.
 ``` pycon
 >>> import numba
 >>> print(numba.__version__)
-0.40.0
->>> numba.test() # This can last several minutes
-...........................
+0.60.0
 ```
 
-
-For each of these packages, the `x.y.z` version should be equal or greater than
-the displayed version. If this is not the case, then maybe you conda
-installation is not up to date and needs to be upgraded (go back the
-[Installation](#installation) section to see how this can be done.
+For each of these packages, the `x.y.z` version should be equal to or greater
+than the displayed version. If you get `ModuleNotFoundError`, check that the
+prompt showed `(sci)` before you started `python`: you are probably using
+another Python.
 
 
 <br/><br/>
@@ -398,23 +425,18 @@ installation is not up to date and needs to be upgraded (go back the
 
 Copyright © 2019 [Nicolas P. Rougier](http://www.labri.fr/perso/nrougier) •
 Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
+Adapted in 2026 (Miniforge instead of Anaconda, system text editor).
 
 
 <!----------------------------- External links ------------------------------->
-[Anaconda]:     https://www.anaconda.com
-[Python]:       http://www.python.org
-[Numpy]:        http://www.numpy.org
-[Scipy]:        http://www.scipy.org
-[Matplotlib]:   http://matplotlib.org
-[IPython]:      http://ipython.org
-[Jupyter]:      http://jupyter.org
-[Git]:          https://git-scm.com
-[Cython]:       http://cython.org
+[Miniforge]:    https://github.com/conda-forge/miniforge
+[conda-forge]:  https://conda-forge.org
+[Python]:       https://www.python.org
+[Numpy]:        https://numpy.org
+[Scipy]:        https://scipy.org
+[Matplotlib]:   https://matplotlib.org
+[IPython]:      https://ipython.org
+[Jupyter]:      https://jupyter.org
+[Cython]:       https://cython.org
 [Unicode]:      https://en.wikipedia.org/wiki/Unicode
-[Emacs]:        http://www.emacs.org/
-[vim]:          https://www.vim.org/
-[Atom]:         https://atom.io/
-[Notepad++]:    https://notepad-plus-plus.org/
-[Sublime Text]: https://www.sublimetext.com/
-[VS Code]:      https://code.visualstudio.com/download
 <!---------------------------------------------------------------------------->
