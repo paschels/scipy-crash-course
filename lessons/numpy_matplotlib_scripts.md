@@ -1,4 +1,5 @@
 # Computing, visualizing and automating
+**Pascal Helson** - [pascal.helson@u-bordeaux.fr](mailto:pascal.helson@u-bordeaux.fr)  
 Lecture notes from the scientific Python crash course, following
 *Control flow and functions*.  
 This work is licensed under [Creative Commons Attribution 4.0 International
