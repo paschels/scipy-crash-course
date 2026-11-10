@@ -1,11 +1,10 @@
-
 # Scientific Python Crash Course
 
 ![](data/XKCD.png)
 
-This is the material for a 20 hours crash course on Scientific Python
-that has been split in 5 beginner and 3 advanced
-modules. Contributions and feedbacks are welcome. Released under a
+This is the material for a 32 hours crash course on Scientific Python
+that has been split in 5 beginner modules (14 hours) and 6 advanced
+modules (18 hours). Contributions and feedbacks are welcome. Released under a
 [CC-BY 4.0
 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.  
 
@@ -19,15 +18,16 @@ International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
 <img src="data/indent.png" width="10pt" height="180pt" align="left"/>
 
 This lesson aims at providing the student with a clean development environment,
-including Python installation and essential packages (using the [Anaconda]
-installer), a decent text editor (e.g. [emacs], [vim], [atom], [notepad++]), a
-git command line and a shell. We'll also introduce the Python & [IPython]
-shells, the [Jupyter] notebook and explains how to run a python
-script from the command line or from inside the [IPython] shell.  
+including a Python installation and essential packages (using the [Miniforge]
+installer, without administrator rights) and a shell. We'll use the text
+editor that already comes with the operating system to write a first script,
+introduce the Python & [IPython] shells, and explain how to run a python
+script from the command line or from inside the [IPython] shell. No IDE is
+needed: Python is separate from the tools used to write code.
 
-**Keywords**: `anaconda`, `shell`, `notebook`, `script`, `git`, `editor`  
+**Keywords**: `miniforge`, `conda`, `environment`, `shell`, `editor`, `script`  
 **Prerequisites**: None  
-**Resources**: None 
+**Resources**: [conda-forge](https://conda-forge.org/)
 
 <br/>
 
@@ -36,52 +36,103 @@ script from the command line or from inside the [IPython] shell.
 
 <img src="data/indent.png" width="10pt" height="160pt" align="left"/>
 
-We introduce here the Python language. Only the bare minimum necessary for
-getting started with Numpy and Scipy is addressed here. To learn more about
-the language, consider going through the excellent tutorial
-https://docs.python.org/tutorial. Dedicated books are also available, such as
-http://www.diveintopython.net/.  
+We introduce here the Python language through the interpreter: numbers,
+variables, strings and containers, indexing and slicing, and running scripts.
+We also learn how to read Python error messages, an essential skill for
+beginners. To learn more about the language, consider going through the
+excellent tutorial https://docs.python.org/tutorial.
 
-**Keywords**: `python`, `types`, `control flow`, `function`, `package`  
+**Keywords**: `python`, `types`, `containers`, `slicing`, `script`, `errors`  
 **Prerequisites**: Installation  
 **Resources**: [The Python tutorial](https://docs.python.org/3/tutorial/)
 
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [3. Numerical computing (numpy)](https://scipy-lectures.org/intro/numpy/index.html) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [3. Control flow and functions](lessons/control_flow_and_functions.md) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+
+<img src="data/indent.png" width="10pt" height="160pt" align="left"/>
+
+This lesson starts with a self-assessment of the previous lesson. We then
+learn how to control the execution of a program with conditionals (`if`,
+`elif`, `else`) and loops (`while`, `for`, `range`), and how to define and
+call our own functions, with a special focus on the difference between
+`return` and `print`.
+
+**Keywords**: `self-assessment`, `if`, `loop`, `range`, `function`, `return`  
+**Prerequisites**: Introduction  
+**Resources**: [Python Tutor](https://pythontutor.com), [Think Python](https://allendowney.github.io/ThinkPython/)
+
+<br/>
+
+<!-- ----------------------------------------------------------------------- -->
+### [4. Computing, visualizing and automating](lessons/numpy_matplotlib_scripts.md) <img src="https://img.shields.io/badge/3.5H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+
+<img src="data/indent.png" width="10pt" height="200pt" align="left"/>
+
+This lesson introduces the three pillars of everyday scientific work in
+Python: computing on arrays with [NumPy], drawing figures with [Matplotlib],
+and automating an analysis with a script processing many files from the
+command line. We also install two interfaces, [Spyder] and [JupyterLab], and
+check that they are just different ways of talking to the same Python.
+
+**Keywords**: `numpy`, `array`, `matplotlib`, `figure`, `argparse`, `spyder`, `jupyter`  
+**Prerequisites**: Control flow and functions  
+**Resources**: [NumPy for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html), [Matplotlib gallery](https://matplotlib.org/stable/gallery/index.html)
+
+<br/>
+
+<!-- ----------------------------------------------------------------------- -->
+### [5. Documentation, tests and the Game of Life](lessons/documentation_tests_game_of_life.md) <img src="https://img.shields.io/badge/3.5H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+
+<img src="data/indent.png" width="10pt" height="200pt" align="left"/>
+
+We learn how to document code (names, comments, docstrings, README) and how
+to test it with [pytest]. We then put everything together in a small project:
+[Conway's Game of Life], programmed first in pure Python, tested, then
+vectorized with NumPy, animated with Matplotlib and run as a script with
+command-line options.
+
+**Keywords**: `docstring`, `pytest`, `doctest`, `project`, `game of life`, `animation`  
+**Prerequisites**: Computing, visualizing and automating  
+**Resources**: [From Python to Numpy](https://www.labri.fr/perso/nrougier/from-python-to-numpy), [LifeWiki](https://conwaylife.com/wiki/)
+
+<br/>
+
+<!-- ----------------------------------------------------------------------- -->
+### [6. Deeper into NumPy](https://lectures.scientific-python.org/intro/numpy/index.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
-This lesson gives an overview of [NumPy], the core library for performant
+This lesson goes deeper into [NumPy], the core library for performant
 numerical computing, with support for large, multi-dimensional
 arrays and matrices, along with a large collection of high-level mathematical
 functions to operate on these arrays.
 
 **Keywords**: `numpy`, `array`, `dtype`, `shape`, `broadcast`  
-**Prerequisites**: Introduction  
-**Resources**: [SciPy Lecture Notes](https://scipy-lectures.org/)
+**Prerequisites**: Computing, visualizing and automating  
+**Resources**: [Scientific Python Lectures](https://lectures.scientific-python.org/)
 
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [4. Data visualization (matplotlib)](https://github.com/rougier/matplotlib-tutorial) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [7. Deeper into Matplotlib](https://github.com/rougier/matplotlib-tutorial) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="160pt" align="left"/>
 
-In this lesson, we are going to explore [Matplotlib] that is the single most
-used Python package for 2D-graphics. It provides both a very quick way to
-visualize data from Python and to produce publication-quality figures in many
-different formats. We'll cover only most common use cases.
+In this lesson, we are going to explore further [Matplotlib] that is the
+single most used Python package for 2D-graphics. It provides both a very quick
+way to visualize data from Python and to produce publication-quality figures
+in many different formats.
 
 **Keywords**: `matplotlib`, `figure`, `plot`, `data`  
-**Prerequisites**: Introduction, Numerical computing  
-**Resources**: [Scientific Visulization: Python + Matplotlib](https://www.labri.fr/perso/nrougier/scientific-visualization.html)
+**Prerequisites**: Computing, visualizing and automating  
+**Resources**: [Scientific Visualization: Python + Matplotlib](https://www.labri.fr/perso/nrougier/scientific-visualization.html)
 
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [5. Scientific computing (scipy)]() <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [8. Scientific computing (scipy)]() <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -91,13 +142,13 @@ functions, FFT, signal and image processing, ODE solvers and other tasks common
 in science and engineering.
 
 **Keywords**: `linear algebra`, `signal processing`, `analysis`, `integration`, `solvers`  
-**Prerequisites**: Numerical Computing  
-**Resources**: [SciPy Lecture Notes](https://scipy-lectures.org/)
+**Prerequisites**: Deeper into NumPy  
+**Resources**: [Scientific Python Lectures](https://lectures.scientific-python.org/)
 
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [6. Version Control (git)](https://swcarpentry.github.io/git-novice/)  <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [9. Version Control (git)](https://swcarpentry.github.io/git-novice/)  <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="200pt" align="left"/>
 
@@ -116,7 +167,7 @@ or needs to be shared can and should be stored in a version control system.
 
 
 <!-- ----------------------------------------------------------------------- -->
-### [7. Vectorization techniques (numpy)](https://www.labri.fr/perso/nrougier/from-python-to-numpy) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [10. Vectorization techniques (numpy)](https://www.labri.fr/perso/nrougier/from-python-to-numpy) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -125,13 +176,13 @@ can drastically improve computation, with several orders of magnitude in
 some cases.
 
 **Keywords**: `Code`, `Problem`, `Spatial`, `Temporal`  
-**Prerequisites**: Numerical Computing  
+**Prerequisites**: Deeper into NumPy  
 **Resources**: [From Python to Numpy](https://www.labri.fr/perso/nrougier/from-python-to-numpy)
 
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [8. Interface with C (cython and ctypes)](https://scipy-lectures.org/advanced/interfacing_with_c/interfacing_with_c.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [11. Interface with C (cython and ctypes)](https://lectures.scientific-python.org/advanced/interfacing_with_c/interfacing_with_c.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -141,8 +192,8 @@ extended Cython programming language that eases the writing of C extensions.
 time) using the industry-standard LLVM compiler library.
 
 **Keywords**: `Optimization`, `Cython`, `Numba`, `Compiler`, `JIT`  
-**Prerequisites**: Numerical Computing , Vectorization techniques  
-**Resources**: [SciPy Lecture Notes](https://scipy-lectures.org/)
+**Prerequisites**: Deeper into NumPy, Vectorization techniques  
+**Resources**: [Scientific Python Lectures](https://lectures.scientific-python.org/)
 
 <br/>
 
@@ -165,18 +216,22 @@ Banner image copyright Â© Randall Monroe ([XKCD #353](https://xkcd.com/353/)) â€
 This course has been written in November 2021 using:  
 <img src="https://img.shields.io/badge/OSX-12.0.1-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Emacs-27.2-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Git-2.30.1-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Python-3.8.10-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Numpy-1.20.3-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Scipy-1.7.1-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Matplotlib-3.3.4-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Cython-0.29.24-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Numba-0.53.1-999999.svg?style=flat-square"/>
 
+The beginner modules (1 to 5) have been adapted in 2026 (Miniforge instead of
+Anaconda, system text editor, new modules 3 to 5) using:  
+<img src="https://img.shields.io/badge/Miniforge-conda--forge-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Python-3.12-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Numpy-2-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Matplotlib-3-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/pytest-9-999999.svg?style=flat-square"/>
 
 
 
-[Anaconda]:   https://www.anaconda.com/
-[Emacs]:      http://www.emacs.org/
-[vim]:        https://www.vim.org/
-[Atom]:       https://atom.io/
-[Notepad++]:  https://notepad-plus-plus.org/
+
+[Miniforge]:  https://github.com/conda-forge/miniforge
 [IPython]:    http://www.ipython.org/
 [Jupyter]:    http://www.jupyter.org/
+[JupyterLab]: https://jupyterlab.readthedocs.io/
+[Spyder]:     https://www.spyder-ide.org/
 [NumPy]:      http://www.numpy.org/
 [Scipy]:      http://www.scipy.org/
 [Matplotlib]: http://www.matplotlib.org/
+[pytest]:     https://docs.pytest.org/
 [Cython]:     https://cython.org/
 [Numba]:      https://numba.pydata.org/
+[Conway's Game of Life]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
