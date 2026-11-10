@@ -1,7 +1,7 @@
 # A Gentle introduction to Python
-**Nicolas P. Rougier** - [Nicolas.Rougier@inria.fr](mailto:Nicolas.Rougier@inria.fr)  
-Lecture notes from the scientific Python crash course taught at the [University of Bordeaux] for the academic year 2021,
-adapted in 2026 (Miniforge, system text editor, reading error messages).  
+**Pascal Helson** - [pascal.helson@u-bordeaux.fr](mailto:pascal.helson@u-bordeaux.fr)  
+Lecture notes from the scientific Python crash course taught by Nicolas Rougier at the [University of Bordeaux] for the academic year 2021,
+adapted in 2026 by Pascal Helson (Miniforge, system text editor, reading error messages).  
 This work is licensed under [Creative Commons Attribution 4.0 International
 License](http://creativecommons.org/licenses/by/4.0/).
 
