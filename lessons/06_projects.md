@@ -17,14 +17,14 @@ License](http://creativecommons.org/licenses/by/4.0/).
 
 ## Projects with numpy and matplotlib
 
-### [Conway's Game of Life](documentation_tests_game_of_life.md#project-the-game-of-life) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
+### [Conway's Game of Life](05_documentation_tests_game_of_life.md#project-the-game-of-life) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
 
 The reference project of the course. Simulate a cellular automaton, first in
 pure Python with lists, then vectorized with numpy (about 50 times faster),
 test it on known patterns, and animate it with matplotlib.  
 **For you if** you want to learn vectorization, or simply have fun.
 
-### [Automating an instrument](instrument_logging.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
+### [Automating an instrument](projects/instrument_logging.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
 
 Read a (simulated) temperature probe at regular intervals, raise an alarm,
 store every measurement in an SQLite database, query it in SQL and plot the
