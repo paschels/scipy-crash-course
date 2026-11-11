@@ -1240,3 +1240,9 @@ of Python.
 [University of Bordeaux]: http://www.u-bordeaux.com
 [Unicode]:    https://en.wikipedia.org/wiki/Unicode
 <!---------------------------------------------------------------------------->
+
+<br/><br/>
+---
+
+Copyright © 2026 [Pascal Helson](https://sites.google.com/view/page-pers-phelson) •
+Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
