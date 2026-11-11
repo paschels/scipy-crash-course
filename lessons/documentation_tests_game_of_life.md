@@ -1,4 +1,4 @@
-# Documentation, tests and the Game of Life
+# Tables, tests and the Game of Life
 **Pascal Helson** - [pascal.helson@u-bordeaux.fr](mailto:pascal.helson@u-bordeaux.fr)  
 Lecture notes from the scientific Python crash course, following
 *Computing, visualizing and automating*.  
@@ -9,8 +9,9 @@ License](http://creativecommons.org/licenses/by/4.0/).
 Objectives
 -------------------------------------------------------------------------------
 
-The primary goal of this lesson is twofold:
+The primary goal of this lesson is threefold:
 
+* To analyse tables of data with [pandas]
 * To document and test your code, so that others (and your future self) can
   understand it and trust it
 * To program [Conway's Game of Life], a small project using everything seen
@@ -18,9 +19,10 @@ The primary goal of this lesson is twofold:
 
 **Contents** (3.5 hours, including a break)
 
-* [Documenting code](#documenting-code) (35 min)
-* [Testing code](#testing-code) (45 min)
-* [Project: the Game of Life](#project-the-game-of-life) (1h45)
+* [Tables of data with pandas](#tables-of-data-with-pandas) (45 min)
+* [Documenting code](#documenting-code) (25 min)
+* [Testing code](#testing-code) (35 min)
+* [Project: the Game of Life](#project-the-game-of-life) (1h35)
 * [Going further](#going-further) (for the fastest, or at home)
 
 
@@ -29,26 +31,276 @@ Before you start
 -------------------------------------------------------------------------------
 
 Open a shell (*Terminal* on Linux and macOS, *Miniforge Prompt* on Windows),
-activate the course environment and install [pytest], the tool we'll use to
-run tests:
+activate the course environment and install [pandas], to work with tables
+of data, [openpyxl], which pandas uses to read and write Excel files, and
+[pytest], the tool we'll use to run tests:
 
 ``` bash
 (base) $ conda activate sci
-(sci) $ conda install pytest
+(sci) $ conda install pandas openpyxl pytest
 ```
 
-Then create a folder `life` for the project, inside your course folder, and
-go into it:
+Then create two folders in your course folder: `tables` for the first part,
+and `life` for the project:
 
 ``` bash
 (sci) $ cd Documents/python-course
-(sci) $ mkdir life
-(sci) $ cd life
+(sci) $ mkdir tables life
 ```
 
-All the files of this lesson go in this folder. Use the interface you prefer
-(text editor and shell, Spyder or JupyterLab), but **run the tests and the
-final script from the shell**.
+Use the interface you prefer (text editor and shell, Spyder or JupyterLab),
+but **run the tests and the final script from the shell**.
+
+
+
+Tables of data with pandas
+-------------------------------------------------------------------------------
+
+numpy is perfect for arrays of numbers. But much scientific data comes as
+**tables**: one row per sample, measurement or animal, and columns of
+different types (dates, names, categories, numbers), often with missing
+values. This is what [pandas] is made for: think of it as a spreadsheet you
+drive with Python. And since pandas is built on numpy, everything you learned
+(masks, `mean`, `sum`...) still applies.
+
+### Some data
+
+Go to the `tables` folder, save this script as `generate_experiments.py` and
+run it. It creates a table of 60 fake chemistry experiments: for each one, its
+date, the sample, the operator, the catalyst used, the temperature, and the
+yield obtained (with 3 failed measurements):
+
+``` python
+"""Generate a fake table of experiments."""
+
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(seed=5)
+n = 60
+catalyst = rng.choice(["A", "B", "C"], n)
+temperature = rng.choice([40, 60, 80], n)
+effect = {"A": 0, "B": 8, "C": -5}
+yields = (50 + 0.3 * temperature + np.array([effect[c] for c in catalyst])
+          + rng.normal(0, 4, n)).round(1)
+yields[rng.choice(n, 3, replace=False)] = np.nan        # failed measurements
+
+experiments = pd.DataFrame({
+    "date": pd.date_range("2026-01-05", periods=n, freq="B").strftime("%Y-%m-%d"),
+    "sample": [f"S{i:03d}" for i in range(1, n + 1)],
+    "operator": rng.choice(["Ana", "Ben", "Chloé"], n),
+    "catalyst": catalyst,
+    "temperature": temperature,
+    "yield": yields,
+})
+experiments.to_csv("experiments.csv", index=False)
+print("Written experiments.csv with", n, "experiments")
+```
+
+``` bash
+(sci) $ python generate_experiments.py
+Written experiments.csv with 60 experiments
+```
+
+By convention, pandas is imported as `pd`. The script already shows the
+main object of pandas, the **DataFrame** (a table), built here from a
+dictionary of columns, and written to a CSV file with `to_csv`.
+
+The rest of this section is best done interactively, in IPython, Spyder or
+JupyterLab: pandas tables are displayed nicely there.
+
+### Reading and exploring
+
+``` python
+>>> import pandas as pd
+>>> df = pd.read_csv("experiments.csv")
+>>> df.head()
+         date sample operator catalyst  temperature  yield
+0  2026-01-05   S001    Chloé        C           80   72.4
+1  2026-01-06   S002      Ben        C           80   72.4
+2  2026-01-07   S003      Ben        A           80   71.6
+3  2026-01-08   S004    Chloé        C           40   56.7
+4  2026-01-09   S005      Ben        B           40   75.4
+>>> df.shape
+(60, 6)
+```
+
+`read_csv` reads a CSV file into a DataFrame (`pd.read_excel` does the same
+for Excel files). `head()` shows the first rows; on the left, the **index**
+numbers the rows. Two other commands to run first on any new dataset:
+
+``` python
+>>> df.info()
+<class 'pandas.DataFrame'>
+RangeIndex: 60 entries, 0 to 59
+Data columns (total 6 columns):
+ #   Column       Non-Null Count  Dtype
+---  ------       --------------  -----
+ 0   date         60 non-null     str
+ 1   sample       60 non-null     str
+ 2   operator     60 non-null     str
+ 3   catalyst     60 non-null     str
+ 4   temperature  60 non-null     int64
+ 5   yield        57 non-null     float64
+dtypes: float64(1), int64(1), str(4)
+memory usage: 2.9 KB
+>>> df.describe()
+       temperature      yield
+count    60.000000  57.000000
+mean     59.000000  68.050877
+std      17.822096   7.370577
+min      40.000000  53.000000
+25%      40.000000  62.800000
+50%      60.000000  68.900000
+75%      80.000000  72.500000
+max      80.000000  88.900000
+```
+
+`info()` gives the type of each column and the number of non-missing values:
+we immediately see that 3 yields are missing. `describe()` gives the main
+statistics of the numerical columns.
+
+### Columns and rows
+
+A column is selected by its name, and is a **Series**: a 1D array with an
+index. All the numpy operations work on it:
+
+``` python
+>>> df["yield"].mean()
+np.float64(68.05087719298245)
+>>> df[["sample", "yield"]].head(3)        # several columns: a list of names
+  sample  yield
+0   S001   72.4
+1   S002   72.4
+2   S003   71.6
+>>> df["catalyst"].value_counts()          # how many times each value appears
+catalyst
+A    23
+C    19
+B    18
+Name: count, dtype: int64
+```
+
+Rows are selected with **boolean masks**, exactly as with numpy arrays, and
+conditions are combined with `&` and `|`, with parentheses:
+
+``` python
+>>> df[(df["catalyst"] == "B") & (df["yield"] > 80)]
+          date sample operator catalyst  temperature  yield
+36  2026-02-24   S037      Ben        B           80   80.6
+48  2026-03-12   S049      Ben        B           80   88.9
+```
+
+New columns are computed from existing ones, like numpy arrays:
+
+``` python
+>>> df["yield_fraction"] = df["yield"] / 100
+```
+
+To access a single value, use `df.loc[row, column]`, e.g.
+`df.loc[0, "yield"]`; `sort_values("yield", ascending=False)` sorts the
+table.
+
+### Missing values
+
+Missing values appear as `NaN`. pandas statistics ignore them (the mean above
+was computed on 57 values), but you should always know where they are:
+
+``` python
+>>> df["yield"].isna().sum()
+np.int64(3)
+>>> df[df["yield"].isna()]
+          date sample operator catalyst  temperature  yield
+12  2026-01-21   S013    Chloé        B           40    NaN
+19  2026-01-30   S020      Ana        C           80    NaN
+50  2026-03-16   S051    Chloé        A           40    NaN
+>>> clean = df.dropna(subset=["yield"])    # remove the rows without yield
+>>> len(clean)
+57
+```
+
+### Grouping: the killer feature
+
+The questions we ask about tables are often *"what is the mean of X for each
+value of Y?"*. This is what `groupby` does, in one line:
+
+``` python
+>>> df.groupby("catalyst")["yield"].agg(["count", "mean", "std"]).round(1)
+          count  mean  std
+catalyst
+A            22  65.5  6.0
+B            17  74.5  5.4
+C            18  65.0  6.9
+```
+
+Catalyst B gives better yields. Does the temperature matter too? A **pivot
+table** crosses two columns:
+
+``` python
+>>> table = df.pivot_table(values="yield", index="temperature",
+...                        columns="catalyst", aggfunc="mean")
+>>> table.round(1)
+catalyst        A     B     C
+temperature
+40           60.3  70.6  56.6
+60           66.2  74.0  66.6
+80           71.8  80.4  70.6
+```
+
+The yield increases with the temperature, for all catalysts. Doing this with
+loops, or by hand in a spreadsheet, would take much longer, and could not be
+re-run in one command when new experiments are added.
+
+### Plotting and saving
+
+DataFrames and Series have a `plot` method, which uses matplotlib:
+
+``` python
+>>> import matplotlib.pyplot as plt
+>>> ax = table.plot(marker="o")             # one line per catalyst
+>>> ax.set_ylabel("Mean yield (%)")
+>>> plt.show()
+>>> df.boxplot(column="yield", by="catalyst")
+>>> plt.show()
+```
+
+Results are saved with `to_csv`, or `to_excel` for Excel files:
+
+``` python
+>>> table.round(1).to_csv("summary.csv")
+>>> table.round(1).to_excel("summary.xlsx")
+```
+
+### Reading a pandas error
+
+A typo in a column name gives a long error message:
+
+``` python
+>>> df["Yield"]
+Traceback (most recent call last):
+  File ".../pandas/core/indexes/base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+  ...
+KeyError: 'Yield'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  ...
+KeyError: 'Yield'
+```
+
+As usual, the **last line** says it all: there is no column `'Yield'` (the
+column is `yield`, in lower case: names are case sensitive). The message
+contains two tracebacks because pandas catches an internal error and raises
+a clearer one: read the last one. `df.columns` lists the exact column names.
+
+> **When to use numpy, when to use pandas?** numpy for arrays of numbers
+> (images, grids, signals, simulations: the Game of Life below); pandas for
+> tables with named columns of different types (experiments, measurements,
+> participants...). Both work together: `df["yield"].to_numpy()` gives a numpy
+> array.
 
 
 
@@ -272,6 +524,13 @@ patterns never change, some oscillate, some move across the grid:
 ```
 
 In this project, cells outside the grid are considered dead.
+
+All the files of the project go in the `life` folder created at the
+beginning of the lesson:
+
+``` bash
+(sci) $ cd Documents/python-course/life
+```
 
 We'll proceed in steps, writing tests as we go:
 
@@ -734,6 +993,83 @@ Going further
 
 Try to answer before clicking on *Answer*.
 
+### pandas
+
+**P1.** With the table of experiments, compute the mean yield of each
+operator. Ben seems to be the best chemist. Is he really? Hint:
+`pd.crosstab(df["operator"], df["catalyst"])` counts the experiments for
+each pair (operator, catalyst).
+
+<details><summary>Answer</summary>
+
+``` python
+>>> df.groupby("operator")["yield"].mean().round(1)
+operator
+Ana      63.8
+Ben      71.8
+Chloé    68.4
+Name: yield, dtype: float64
+>>> pd.crosstab(df["operator"], df["catalyst"])
+catalyst   A  B  C
+operator
+Ana       11  1  7
+Ben        4  9  5
+Chloé      8  8  7
+>>> df.pivot_table(values="yield", index="operator", columns="catalyst",
+...                aggfunc="mean").round(1)
+catalyst     A     B     C
+operator
+Ana       65.6  70.1  59.5
+Ben       65.4  76.1  69.4
+Chloé     65.6  73.1  66.7
+```
+
+Ben used the best catalyst (B) much more often than Ana, who used it only
+once: this is why his mean yield is higher. With catalyst A, the three
+operators get the same yield. This is a classic trap called **confounding**:
+before concluding from a mean, check how the groups were made. (In fact, our
+generator gives no role at all to the operator!)
+</details>
+
+**P2.** Convert the column `date` into real dates with
+`pd.to_datetime(df["date"])`, then compute the mean yield per month.
+
+<details><summary>Answer</summary>
+
+``` python
+>>> df["date"] = pd.to_datetime(df["date"])
+>>> df.groupby(df["date"].dt.month)["yield"].mean().round(1)
+date
+1    67.7
+2    66.6
+3    69.9
+Name: yield, dtype: float64
+```
+
+Once converted, a date column gives access to `.dt.year`, `.dt.month`,
+`.dt.day_name()`... and can be used to sort or filter by period.
+</details>
+
+**P3.** For each catalyst, find the experiment with the best yield (sample,
+temperature and yield).
+
+<details><summary>Answer</summary>
+
+``` python
+>>> best = df.groupby("catalyst")["yield"].idxmax()
+>>> df.loc[best, ["catalyst", "sample", "temperature", "yield"]]
+   catalyst sample  temperature  yield
+46        A   S047           80   75.9
+48        B   S049           80   88.9
+57        C   S058           80   73.3
+```
+
+`idxmax` gives the index (row label) of the maximum in each group, and
+`df.loc` selects these rows and the requested columns.
+</details>
+
+### Game of Life
+
 **1.** Add a test checking that after 4 generations, the glider has moved by
 one cell down and one cell to the right.
 
@@ -891,6 +1227,14 @@ version: indeed, this output was obtained with the bug of step 2
 Resources
 -------------------------------------------------------------------------------
 
+* [**10 minutes to pandas**](https://pandas.pydata.org/docs/user_guide/10min.html)
+  and the [**pandas getting started tutorials**](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html):
+  the official introductions, very visual.
+
+* [**Comparison with spreadsheets**](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_spreadsheets.html):
+  how to do in pandas what you do in Excel (filters, pivot tables,
+  VLOOKUP...).
+
 * [**Conway's Game of Life**][Conway's Game of Life] on Wikipedia, and the
   [**LifeWiki**][LifeWiki], an encyclopedia of patterns, with thousands of
   patterns to download.
@@ -922,6 +1266,8 @@ Resources
 <!----------------------------- External links ------------------------------->
 [Conway's Game of Life]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 [LifeWiki]:   https://conwaylife.com/wiki/
+[pandas]:     https://pandas.pydata.org
+[openpyxl]:   https://openpyxl.readthedocs.io
 [pytest]:     https://docs.pytest.org
 [numpydoc]:   https://numpydoc.readthedocs.io/en/latest/format.html
 [Markdown]:   https://www.markdownguide.org/basic-syntax/
