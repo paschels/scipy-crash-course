@@ -184,7 +184,7 @@ decimal value of the binary approximation stored for 0.1, it would have to
 display
 
 ``` python
->>> 0.1
+>>> print(f"{0.1:.55f}")
 0.1000000000000000055511151231257827021181583404541015625
 ```
 
