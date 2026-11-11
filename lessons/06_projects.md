@@ -32,7 +32,7 @@ results. Explains how to drive real instruments with pyserial and PyVISA.
 **For you if** you want to automate equipment, collect data, interface
 experimental setups or build databases.
 
-### [Managing a research programme](research_programme.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
+### [Managing a research programme](projects/research_programme.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
 
 Check and summarize the participants of a programme of 50 projects (CSV
 files): counts per project and institute, duplicated registrations, missing
@@ -40,7 +40,7 @@ emails, a report with a figure. Includes Python formulas in Grist.
 **For you if** you coordinate projects, manage administrative data, or use
 Grist.
 
-### [Counting cells in images](counting_cells.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
+### [Counting cells in images](projects/counting_cells.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
 
 Threshold, label and measure bright objects in microscopy images with
 `scipy.ndimage`, process a whole folder, and check the results visually.
@@ -48,14 +48,14 @@ Explains how to read real TIFF images.
 **For you if** you process images or build analysis pipelines, as with
 ImageJ/Fiji macros.
 
-### [Mouse behaviour in an open field](open_field.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
+### [Mouse behaviour in an open field](projects/open_field.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
 
 Analyse animal trajectories: distance travelled, time spent in the center of
 the arena, comparison of two groups, speed and occupancy heatmaps.  
 **For you if** you analyse behavioural or tracking data (EthoVision,
 DeepLabCut, notebooks provided with a setup).
 
-### [Heat diffusion (and waves)](heat_diffusion.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
+### [Heat diffusion (and waves)](projects/heat_diffusion.md) <img src="https://img.shields.io/badge/1H45-numpy-306998.svg?style=flat-square" align="right"/>
 
 Solve the heat equation with finite differences, discover numerical
 instability, validate the simulation against exact solutions, then extend it
@@ -66,7 +66,7 @@ sciences, modelling), especially coming from MATLAB.
 
 ## Projects with pandas
 
-### [A research programme with pandas](programme_pandas.md) <img src="https://img.shields.io/badge/1H45-pandas-150458.svg?style=flat-square" align="right"/>
+### [A research programme with pandas](projects/programme_pandas.md) <img src="https://img.shields.io/badge/1H45-pandas-150458.svg?style=flat-square" align="right"/>
 
 Merge the participants with the description of the projects, clean the data,
 summarize with `groupby` and cross tables, and produce an Excel report with
@@ -74,7 +74,7 @@ several sheets.
 **For you if** you prepare reports or exchange tables with spreadsheets and
 Grist.
 
-### [Monitoring with time series](timeseries_pandas.md) <img src="https://img.shields.io/badge/1H45-pandas-150458.svg?style=flat-square" align="right"/>
+### [Monitoring with time series](projects/timeseries_pandas.md) <img src="https://img.shields.io/badge/1H45-pandas-150458.svg?style=flat-square" align="right"/>
 
 Check two weeks of data-logger measurements: detect gaps and glitches,
 resample by hour, day or week, compute time above a limit, and see how
@@ -82,7 +82,7 @@ missing data can bias statistics.
 **For you if** you work with data loggers, sensors, instruments or
 monitoring stations.
 
-### [A whole behavioural experiment](experiment_pandas.md) <img src="https://img.shields.io/badge/1H45-pandas-150458.svg?style=flat-square" align="right"/>
+### [A whole behavioural experiment](projects/experiment_pandas.md) <img src="https://img.shields.io/badge/1H45-pandas-150458.svg?style=flat-square" align="right"/>
 
 Combine 16 tracking files with a metadata table, compute per-animal measures,
 compare groups, follow the activity over time, and spot a flaw in the design
