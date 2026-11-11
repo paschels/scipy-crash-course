@@ -1,12 +1,9 @@
-# A Gentle introduction to Python
+# Installation
 **Pascal Helson** - [pascal.helson@u-bordeaux.fr](mailto:pascal.helson@u-bordeaux.fr)  
 Lecture notes from the scientific Python crash course taught by Nicolas Rougier at the [University of Bordeaux] for the academic year 2021,
 adapted in 2026 by Pascal Helson (Miniforge, system text editor, reading error messages).  
 This work is licensed under [Creative Commons Attribution 4.0 International
 License](http://creativecommons.org/licenses/by/4.0/).
-
-## Installation
-
 
 This lesson aims at providing the student with a clean development environment,
 including a Python installation and essential packages (using the [Miniforge]
