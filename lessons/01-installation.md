@@ -5,6 +5,9 @@ adapted in 2026 by Pascal Helson (Miniforge, system text editor, reading error m
 This work is licensed under [Creative Commons Attribution 4.0 International
 License](http://creativecommons.org/licenses/by/4.0/).
 
+Summary
+-------------------------------------------------------------------------------
+
 This lesson aims at providing the student with a clean development environment,
 including a Python installation and essential packages (using the [Miniforge]
 installer) and a shell. We'll use the text editor that already comes with your
@@ -28,8 +31,7 @@ it.** You don't need an IDE to write Python code.
 * [Testing your installation](#testing-your-installation-) .........................................................................................................................
   <img src="https://img.shields.io/badge/-Duration:_10mn-black.svg?style=flat-square" align="right"/>
 
-
-<br/><br/><br/><br/>
+<br/><br/>
 
 ## Objectives
 
