@@ -425,15 +425,11 @@ than the displayed version. If you get `ModuleNotFoundError`, check that the
 prompt showed `(sci)` before you started `python`: you are probably using
 another Python.
 
-
 <br/><br/>
+---
 
-##
-
-Copyright © 2019 [Nicolas P. Rougier](http://www.labri.fr/perso/nrougier) •
+Copyright © 2026 [Pascal Helson](https://sites.google.com/view/page-pers-phelson) •
 Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
-Adapted in 2026 (Miniforge instead of Anaconda, system text editor).
-
 
 <!----------------------------- External links ------------------------------->
 [Miniforge]:    https://github.com/conda-forge/miniforge
@@ -447,9 +443,3 @@ Adapted in 2026 (Miniforge instead of Anaconda, system text editor).
 [Cython]:       https://cython.org
 [Unicode]:      https://en.wikipedia.org/wiki/Unicode
 <!---------------------------------------------------------------------------->
-
-<br/><br/>
----
-
-Copyright © 2026 [Pascal Helson](https://sites.google.com/view/page-pers-phelson) •
-Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
