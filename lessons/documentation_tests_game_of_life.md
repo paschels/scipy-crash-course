@@ -926,3 +926,9 @@ Resources
 [numpydoc]:   https://numpydoc.readthedocs.io/en/latest/format.html
 [Markdown]:   https://www.markdownguide.org/basic-syntax/
 <!---------------------------------------------------------------------------->
+
+<br/><br/>
+---
+
+Copyright © 2026 [Pascal Helson](https://sites.google.com/view/page-pers-phelson) •
+Released under a [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
