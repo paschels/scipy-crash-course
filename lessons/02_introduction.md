@@ -584,6 +584,107 @@ order they were inserted.
 ```
 
 
+### Mutable or immutable?
+
+You've seen the words *mutable* and *immutable* in the list above. This is one
+of the most important notions of Python, and a frequent source of surprises.
+
+* An **immutable** object cannot be modified after its creation: numbers
+  (`int`, `float`, `complex`, `bool`), strings (`str`) and tuples (`tuple`).
+* A **mutable** object can be modified in place: lists (`list`),
+  dictionaries (`dict`) and sets (`set`).
+
+Type | Example | Mutable?
+-----|---------|---------
+`int`, `float`, `complex`, `bool` | `42`, `3.14`, `1j`, `True` | no
+`str` | `"hello"` | no
+`tuple` | `(1, 2, 3)` | no
+`list` | `[1, 2, 3]` | **yes**
+`dict` | `{"a": 1}` | **yes**
+`set` | `{1, 2, 3}` | **yes**
+
+**Modifying an immutable object raises an error:**
+
+``` python
+>>> t = (1, 2, 3)
+>>> t[0] = 10
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+>>> s = "hello"
+>>> s[0] = "H"
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+```
+
+**Operations on immutable objects create new objects.** String methods
+return a new string, and leave the original untouched:
+
+``` python
+>>> s = "hello"
+>>> s.upper()
+'HELLO'
+>>> s
+'hello'
+>>> s = s + "!"     # a new string is created, and the name s now refers to it
+>>> s
+'hello!'
+```
+
+**With mutable objects, two names can refer to the same object.** This is
+the surprise that catches everybody once:
+
+``` python
+>>> a = [1, 2]
+>>> b = a           # b is NOT a copy: a and b are two names for the same list
+>>> b.append(3)
+>>> a
+[1, 2, 3]
+```
+
+To get an independent copy, ask for it explicitly with `copy()` (or
+`list(a)`, or `a[:]`):
+
+``` python
+>>> a = [1, 2]
+>>> c = a.copy()
+>>> c.append(3)
+>>> a
+[1, 2]
+```
+
+With immutable objects, this question never arises, since they can't be
+modified anyway.
+
+**Dictionary keys and set elements must be immutable.** A tuple can be a key,
+a list cannot:
+
+``` python
+>>> {(1, 2): "tuple"}
+{(1, 2): 'tuple'}
+>>> {[1, 2]: "list"}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list'
+```
+
+(*Hashable* is, roughly, the technical word for "immutable" here.)
+
+**A last subtlety:** a tuple is immutable, but if it contains a mutable
+object, this object can still be modified:
+
+``` python
+>>> t = (1, [2, 3])
+>>> t[1].append(4)
+>>> t
+(1, [2, 3, 4])
+```
+
+The tuple still contains the same two objects; it's the list inside that
+changed.
+
+
 ### Indexing and slicing
 
 Individual items of a list, tuple and string can be accessed individually
@@ -667,7 +768,8 @@ Because strings are indexable, indexing and slicing work just the same.
 
 ### Adding and removing
 
-Adding an element to a mutable container can be done in two distinct
+Adding an element to a mutable container (list, dictionary, set: see
+[Mutable or immutable?](#mutable-or-immutable)) can be done in two distinct
 ways. Either by creating a new container that is the container plus the new
 item, or by inserting the new item into the container, hence modifying it.
 
@@ -924,6 +1026,24 @@ them.
 float('nan')
 ```
 
+<details><summary>Answers</summary>
+
+Expression | Type | Explanation
+-----------|------|------------
+`.0` | `float` | `0.0`: the leading zero can be omitted
+`-1` | `int` |
+`1,` | `tuple` | the comma makes the tuple, not the parentheses: `(1,)`
+`'4.0 + 5.0'` | `str` | between quotes, it's text, not a computation
+`1e2` | `float` | scientific notation always gives a float: `100.0`
+`1j` | `complex` |
+`[{()}]` | `list` | a list containing a set containing an empty tuple
+`float('nan')` | `float` | *Not a Number* is a special float value
+
+You can check any answer with `type(...)`, e.g. `type(1,)`... careful, this
+one gives `int`: inside a function call, the comma separates arguments. Use
+`type((1,))`.
+</details>
+
 
 ### Are these legal python expressions?
 
@@ -963,6 +1083,24 @@ float('nan')
 [({})]
 ```
 
+<details><summary>Answers</summary>
+
+Expression | Legal? | Explanation
+-----------|--------|------------
+`1 + 1 == 2` | yes, `True` | `+` is computed before `==`
+`1 = 2` | **no** | `SyntaxError: cannot assign to literal`: `=` assigns a value to a name, it does not compare (that's `==`)
+`(1,)[0]` | yes, `1` | first element of a one-element tuple
+`1 + 1i` | **no** | `SyntaxError`: in Python, the imaginary unit is `j`, as in `1 + 1j`
+`1 <- 2` | yes, `False` | there is no `<-` operator: it is read as `1 < -2`
+`0.+.0` | yes, `0.0` | `0.` + `.0`, two floats
+`3***3` | **no** | `SyntaxError`: `**` is the power, but `***` means nothing
+`3 <<2>> 3` | yes, `1` | read as `(3 << 2) >> 3`: bit shifts, `12 >> 3` gives `1`
+`[({})]` | yes, `[{}]` | parentheses alone only group: a list containing an empty dictionary
+
+Spaces are misleading in several of these expressions: Python ignores them
+around operators. When in doubt, add parentheses!
+</details>
+
 
 ### Find the result of the following expressions
 
@@ -993,6 +1131,19 @@ float('nan')
 ``` python
 3 <2> 3
 ```
+
+<details><summary>Answers</summary>
+
+Expression | Result | Explanation
+-----------|--------|------------
+`1.+1,` | `(2.0,)` | `1. + 1` is `2.0`, and the final comma makes a tuple
+`1,+1.` | `(1, 1.0)` | a tuple of two elements: `1` and `+1.`
+`(1,)*3` | `(1, 1, 1)` | multiplying a tuple (or a list, or a string) repeats it
+`1e1000 - 1e1000` | `nan` | `1e1000` is too large for a float: it becomes `inf`, and `inf - inf` is undefined
+`'abc'*3` | `'abcabcabc'` | repetition of a string
+`3 or 10` | `3` | `or` returns the first value considered true, without looking further
+`3 <2> 3` | `False` | a chained comparison: `3 < 2 and 2 > 3`
+</details>
 
 
 ### Read the error messages
@@ -1188,6 +1339,40 @@ into a number, `celsius = float(input("Temperature in Celsius: "))`.
 * Find the maximum representable integer?
 * Print the string `"Isn't, he said"` (including quotes)?
 * Swap the content of two variables?
+
+<details><summary>Answers</summary>
+
+``` python
+>>> set()                          # the empty set ({} is an empty dictionary!)
+set()
+>>> sorted(set("abracadabra"))     # unique letters, sorted
+['a', 'b', 'c', 'd', 'r']
+>>> ([], [])                       # a tuple of two empty lists
+([], [])
+>>> list(range(20, 41, 2))         # range is presented in the next lesson
+[20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40]
+>>> word = "radar"
+>>> word == word[::-1]             # palindrome: equal to its reverse
+True
+>>> float("1.2")
+1.2
+>>> len(set([1, 2, 2, 3, 3, 3]))   # number of unique elements
+3
+>>> print('"Isn\'t, he said"')     # escape the single quote with \
+"Isn't, he said"
+>>> a, b = 1, 2
+>>> a, b = b, a                    # swap, thanks to tuples
+>>> a, b
+(2, 1)
+```
+
+**The maximum representable integer?** It's a trick question: Python integers
+have no maximum, only the memory of your computer limits them (try
+`2**10000`). There are other limits, though: `sys.maxsize`
+(`9223372036854775807` on a 64-bit computer) is the largest possible size of a
+list, and `sys.float_info.max` (about `1.8e308`) is the largest float, beyond
+which you get `inf`.
+</details>
 
 
 
