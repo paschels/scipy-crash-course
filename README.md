@@ -3,8 +3,8 @@
 ![](data/XKCD.png)
 
 This is the material for a 32 hours crash course on Scientific Python
-that has been split in 5 beginner modules (14 hours) and 6 advanced
-modules (18 hours). Contributions and feedbacks are welcome. Released under a
+that has been split in 5 beginner modules (14 hours), a set of alternative
+projects, and 6 advanced modules (18 hours). Contributions and feedbacks are welcome. Released under a
 [CC-BY 4.0
 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.  
 
@@ -13,7 +13,7 @@ International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
 
 ## Material
 
-### [1. Installation](lessons/01-installation.md) <img src="https://img.shields.io/badge/1H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [1. Installation](lessons/01_installation.md) <img src="https://img.shields.io/badge/1H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="180pt" align="left"/>
 
@@ -32,7 +32,7 @@ needed: Python is separate from the tools used to write code.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [2. Introduction](lessons/introduction.md) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [2. Introduction](lessons/02_introduction.md) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="160pt" align="left"/>
 
@@ -49,7 +49,7 @@ excellent tutorial https://docs.python.org/tutorial.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [3. Control flow and functions](lessons/control_flow_and_functions.md) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [3. Control flow and functions](lessons/03_control_flow_and_functions.md) <img src="https://img.shields.io/badge/3H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="160pt" align="left"/>
 
@@ -66,7 +66,7 @@ call our own functions, with a special focus on the difference between
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [4. Computing, visualizing and automating](lessons/numpy_matplotlib_scripts.md) <img src="https://img.shields.io/badge/3.5H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [4. Computing, visualizing and automating](lessons/04_numpy_matplotlib_scripts.md) <img src="https://img.shields.io/badge/3.5H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="200pt" align="left"/>
 
@@ -83,24 +83,47 @@ check that they are just different ways of talking to the same Python.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [5. Documentation, tests and the Game of Life](lessons/documentation_tests_game_of_life.md) <img src="https://img.shields.io/badge/3.5H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
+### [5. Tables, documentation, tests and the Game of Life](lessons/05_documentation_tests_game_of_life.md) <img src="https://img.shields.io/badge/3.5H-Beginner-B39DDB.svg?style=flat-square" align="right"/>
 
-<img src="data/indent.png" width="10pt" height="200pt" align="left"/>
+<img src="data/indent.png" width="10pt" height="220pt" align="left"/>
 
-We learn how to document code (names, comments, docstrings, README) and how
-to test it with [pytest]. We then put everything together in a small project:
-[Conway's Game of Life], programmed first in pure Python, tested, then
-vectorized with NumPy, animated with Matplotlib and run as a script with
-command-line options.
+We first learn how to analyse tables of data with [pandas]: reading CSV and
+Excel files, selecting, handling missing values, grouping and pivot tables.
+We then learn how to document code (names, comments, docstrings, README) and
+how to test it with [pytest]. Finally, we put everything together in a small
+project: [Conway's Game of Life], programmed first in pure Python, tested,
+then vectorized with NumPy, animated with Matplotlib and run as a script with
+command-line options. [Alternative projects](lessons/projects.md) are
+proposed, closer to the participants' fields (instruments, images,
+behaviour, simulation, time series, management of a programme...).
 
-**Keywords**: `docstring`, `pytest`, `doctest`, `project`, `game of life`, `animation`  
+**Keywords**: `pandas`, `groupby`, `docstring`, `pytest`, `project`, `game of life`  
 **Prerequisites**: Computing, visualizing and automating  
-**Resources**: [From Python to Numpy](https://www.labri.fr/perso/nrougier/from-python-to-numpy), [LifeWiki](https://conwaylife.com/wiki/)
+**Resources**: [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html), [From Python to Numpy](https://www.labri.fr/perso/nrougier/from-python-to-numpy), [LifeWiki](https://conwaylife.com/wiki/)
 
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [6. Deeper into NumPy](https://lectures.scientific-python.org/intro/numpy/index.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [6. Alternative projects](lessons/06_projects.md) <img src="https://img.shields.io/badge/1H45-Projects-FFB300.svg?style=flat-square" align="right"/>
+
+<img src="data/indent.png" width="10pt" height="180pt" align="left"/>
+
+Eight projects of the same level as the Game of Life, closer to the
+participants' fields: automating an instrument and storing data in a
+database, managing a research programme (with Grist), counting cells in
+microscopy images, analysing animal behaviour, simulating heat diffusion and
+waves, and, with [pandas], monitoring time series and analysing whole
+experiments. Each one starts from simulated data, and explains how to switch
+to real data.
+
+**Keywords**: `instruments`, `database`, `images`, `behaviour`, `simulation`, `time series`, `pandas`  
+**Prerequisites**: Tables, documentation, tests and the Game of Life  
+**Resources**: [Scientific Python Lectures](https://lectures.scientific-python.org/)
+
+<br/>
+
+<!-- ----------------------------------------------------------------------- -->
+### [7. Deeper into NumPy](https://lectures.scientific-python.org/intro/numpy/index.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -116,7 +139,7 @@ functions to operate on these arrays.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [7. Deeper into Matplotlib](https://github.com/rougier/matplotlib-tutorial) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [8. Deeper into Matplotlib](https://github.com/rougier/matplotlib-tutorial) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="160pt" align="left"/>
 
@@ -132,7 +155,7 @@ in many different formats.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [8. Scientific computing (scipy)]() <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [9. Scientific computing (scipy)]() <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -148,7 +171,7 @@ in science and engineering.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [9. Version Control (git)](https://swcarpentry.github.io/git-novice/)  <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [10. Version Control (git)](https://swcarpentry.github.io/git-novice/)  <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="200pt" align="left"/>
 
@@ -167,7 +190,7 @@ or needs to be shared can and should be stored in a version control system.
 
 
 <!-- ----------------------------------------------------------------------- -->
-### [10. Vectorization techniques (numpy)](https://www.labri.fr/perso/nrougier/from-python-to-numpy) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [11. Vectorization techniques (numpy)](https://www.labri.fr/perso/nrougier/from-python-to-numpy) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -182,7 +205,7 @@ some cases.
 <br/>
 
 <!-- ----------------------------------------------------------------------- -->
-### [11. Interface with C (cython and ctypes)](https://lectures.scientific-python.org/advanced/interfacing_with_c/interfacing_with_c.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
+### [12. Interface with C (cython and ctypes)](https://lectures.scientific-python.org/advanced/interfacing_with_c/interfacing_with_c.html) <img src="https://img.shields.io/badge/3H-Advanced-EF5350.svg?style=flat-square" align="right"/>
 
 <img src="data/indent.png" width="10pt" height="140pt" align="left"/>
 
@@ -218,7 +241,7 @@ This course has been written in November 2021 using:
 
 The beginner modules (1 to 5) have been adapted in 2026 (Miniforge instead of
 Anaconda, system text editor, new modules 3 to 5) using:  
-<img src="https://img.shields.io/badge/Miniforge-conda--forge-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Python-3.12-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Numpy-2-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Matplotlib-3-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/pytest-9-999999.svg?style=flat-square"/>
+<img src="https://img.shields.io/badge/Miniforge-conda--forge-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Python-3.12-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Numpy-2-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/Matplotlib-3-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/pandas-3-999999.svg?style=flat-square"/> <img src="https://img.shields.io/badge/pytest-9-999999.svg?style=flat-square"/>
 
 
 
@@ -232,6 +255,7 @@ Anaconda, system text editor, new modules 3 to 5) using:
 [Scipy]:      http://www.scipy.org/
 [Matplotlib]: http://www.matplotlib.org/
 [pytest]:     https://docs.pytest.org/
+[pandas]:     https://pandas.pydata.org/
 [Cython]:     https://cython.org/
 [Numba]:      https://numba.pydata.org/
 [Conway's Game of Life]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
