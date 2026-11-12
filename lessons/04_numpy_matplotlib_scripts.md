@@ -46,10 +46,10 @@ needed):
 ``` bash
 (base) $ conda activate sci
 (sci) $ conda install spyder jupyterlab ipykernel spyder-kernels
-(sci) $ python -m ipykernel install --user --name sci --display-name "sci"
-
 ...
 Proceed ([y]/n)? y
+...
+(sci) $ python -m ipykernel install --user --name sci --display-name "sci"
 ```
 
 > **Note**: the first time you start Spyder or JupyterLab, your system may show
