@@ -109,20 +109,26 @@ dictionary of columns, and written to a CSV file with `to_csv`.
 The rest of this section is best done interactively, in IPython, Spyder or
 JupyterLab: pandas tables are displayed nicely there.
 
+> **Copying the examples**: the code blocks can be pasted directly in IPython,
+> Spyder or a notebook. The results are shown as comments (lines starting
+> with `#`). A notebook cell only displays the value of its **last** line: to
+> see every result, run the lines one at a time, or wrap them in
+> `print(...)`.
+
 ### Reading and exploring
 
 ``` python
->>> import pandas as pd
->>> df = pd.read_csv("experiments.csv")
->>> df.head()
-         date sample operator catalyst  temperature  yield
-0  2026-01-05   S001    Chloé        C           80   72.4
-1  2026-01-06   S002      Ben        C           80   72.4
-2  2026-01-07   S003      Ben        A           80   71.6
-3  2026-01-08   S004    Chloé        C           40   56.7
-4  2026-01-09   S005      Ben        B           40   75.4
->>> df.shape
-(60, 6)
+import pandas as pd
+df = pd.read_csv("experiments.csv")
+df.head()
+#          date sample operator catalyst  temperature  yield
+# 0  2026-01-05   S001    Chloé        C           80   72.4
+# 1  2026-01-06   S002      Ben        C           80   72.4
+# 2  2026-01-07   S003      Ben        A           80   71.6
+# 3  2026-01-08   S004    Chloé        C           40   56.7
+# 4  2026-01-09   S005      Ben        B           40   75.4
+df.shape
+# (60, 6)
 ```
 
 `read_csv` reads a CSV file into a DataFrame (`pd.read_excel` does the same
@@ -130,30 +136,30 @@ for Excel files). `head()` shows the first rows; on the left, the **index**
 numbers the rows. Two other commands to run first on any new dataset:
 
 ``` python
->>> df.info()
-<class 'pandas.DataFrame'>
-RangeIndex: 60 entries, 0 to 59
-Data columns (total 6 columns):
- #   Column       Non-Null Count  Dtype
----  ------       --------------  -----
- 0   date         60 non-null     str
- 1   sample       60 non-null     str
- 2   operator     60 non-null     str
- 3   catalyst     60 non-null     str
- 4   temperature  60 non-null     int64
- 5   yield        57 non-null     float64
-dtypes: float64(1), int64(1), str(4)
-memory usage: 2.9 KB
->>> df.describe()
-       temperature      yield
-count    60.000000  57.000000
-mean     59.000000  68.050877
-std      17.822096   7.370577
-min      40.000000  53.000000
-25%      40.000000  62.800000
-50%      60.000000  68.900000
-75%      80.000000  72.500000
-max      80.000000  88.900000
+df.info()
+# <class 'pandas.DataFrame'>
+# RangeIndex: 60 entries, 0 to 59
+# Data columns (total 6 columns):
+#  #   Column       Non-Null Count  Dtype
+# ---  ------       --------------  -----
+#  0   date         60 non-null     str
+#  1   sample       60 non-null     str
+#  2   operator     60 non-null     str
+#  3   catalyst     60 non-null     str
+#  4   temperature  60 non-null     int64
+#  5   yield        57 non-null     float64
+# dtypes: float64(1), int64(1), str(4)
+# memory usage: 2.9 KB
+df.describe()
+#        temperature      yield
+# count    60.000000  57.000000
+# mean     59.000000  68.050877
+# std      17.822096   7.370577
+# min      40.000000  53.000000
+# 25%      40.000000  62.800000
+# 50%      60.000000  68.900000
+# 75%      80.000000  72.500000
+# max      80.000000  88.900000
 ```
 
 `info()` gives the type of each column and the number of non-missing values:
@@ -166,35 +172,35 @@ A column is selected by its name, and is a **Series**: a 1D array with an
 index. All the numpy operations work on it:
 
 ``` python
->>> df["yield"].mean()
-np.float64(68.05087719298245)
->>> df[["sample", "yield"]].head(3)        # several columns: a list of names
-  sample  yield
-0   S001   72.4
-1   S002   72.4
-2   S003   71.6
->>> df["catalyst"].value_counts()          # how many times each value appears
-catalyst
-A    23
-C    19
-B    18
-Name: count, dtype: int64
+df["yield"].mean()
+# np.float64(68.05087719298245)
+df[["sample", "yield"]].head(3)        # several columns: a list of names
+#   sample  yield
+# 0   S001   72.4
+# 1   S002   72.4
+# 2   S003   71.6
+df["catalyst"].value_counts()          # how many times each value appears
+# catalyst
+# A    23
+# C    19
+# B    18
+# Name: count, dtype: int64
 ```
 
 Rows are selected with **boolean masks**, exactly as with numpy arrays, and
 conditions are combined with `&` and `|`, with parentheses:
 
 ``` python
->>> df[(df["catalyst"] == "B") & (df["yield"] > 80)]
-          date sample operator catalyst  temperature  yield
-36  2026-02-24   S037      Ben        B           80   80.6
-48  2026-03-12   S049      Ben        B           80   88.9
+df[(df["catalyst"] == "B") & (df["yield"] > 80)]
+#           date sample operator catalyst  temperature  yield
+# 36  2026-02-24   S037      Ben        B           80   80.6
+# 48  2026-03-12   S049      Ben        B           80   88.9
 ```
 
 New columns are computed from existing ones, like numpy arrays:
 
 ``` python
->>> df["yield_fraction"] = df["yield"] / 100
+df["yield_fraction"] = df["yield"] / 100
 ```
 
 To access a single value, use `df.loc[row, column]`, e.g.
@@ -207,16 +213,16 @@ Missing values appear as `NaN`. pandas statistics ignore them (the mean above
 was computed on 57 values), but you should always know where they are:
 
 ``` python
->>> df["yield"].isna().sum()
-np.int64(3)
->>> df[df["yield"].isna()]
-          date sample operator catalyst  temperature  yield
-12  2026-01-21   S013    Chloé        B           40    NaN
-19  2026-01-30   S020      Ana        C           80    NaN
-50  2026-03-16   S051    Chloé        A           40    NaN
->>> clean = df.dropna(subset=["yield"])    # remove the rows without yield
->>> len(clean)
-57
+df["yield"].isna().sum()
+# np.int64(3)
+df[df["yield"].isna()]
+#           date sample operator catalyst  temperature  yield
+# 12  2026-01-21   S013    Chloé        B           40    NaN
+# 19  2026-01-30   S020      Ana        C           80    NaN
+# 50  2026-03-16   S051    Chloé        A           40    NaN
+clean = df.dropna(subset=["yield"])    # remove the rows without yield
+len(clean)
+# 57
 ```
 
 ### Grouping: the killer feature
@@ -225,26 +231,26 @@ The questions we ask about tables are often *"what is the mean of X for each
 value of Y?"*. This is what `groupby` does, in one line:
 
 ``` python
->>> df.groupby("catalyst")["yield"].agg(["count", "mean", "std"]).round(1)
-          count  mean  std
-catalyst
-A            22  65.5  6.0
-B            17  74.5  5.4
-C            18  65.0  6.9
+df.groupby("catalyst")["yield"].agg(["count", "mean", "std"]).round(1)
+#           count  mean  std
+# catalyst
+# A            22  65.5  6.0
+# B            17  74.5  5.4
+# C            18  65.0  6.9
 ```
 
 Catalyst B gives better yields. Does the temperature matter too? A **pivot
 table** crosses two columns:
 
 ``` python
->>> table = df.pivot_table(values="yield", index="temperature",
-...                        columns="catalyst", aggfunc="mean")
->>> table.round(1)
-catalyst        A     B     C
-temperature
-40           60.3  70.6  56.6
-60           66.2  74.0  66.6
-80           71.8  80.4  70.6
+table = df.pivot_table(values="yield", index="temperature",
+                       columns="catalyst", aggfunc="mean")
+table.round(1)
+# catalyst        A     B     C
+# temperature
+# 40           60.3  70.6  56.6
+# 60           66.2  74.0  66.6
+# 80           71.8  80.4  70.6
 ```
 
 The yield increases with the temperature, for all catalysts. Doing this with
@@ -256,19 +262,19 @@ re-run in one command when new experiments are added.
 DataFrames and Series have a `plot` method, which uses matplotlib:
 
 ``` python
->>> import matplotlib.pyplot as plt
->>> ax = table.plot(marker="o")             # one line per catalyst
->>> ax.set_ylabel("Mean yield (%)")
->>> plt.show()
->>> df.boxplot(column="yield", by="catalyst")
->>> plt.show()
+import matplotlib.pyplot as plt
+ax = table.plot(marker="o")             # one line per catalyst
+ax.set_ylabel("Mean yield (%)")
+plt.show()
+df.boxplot(column="yield", by="catalyst")
+plt.show()
 ```
 
 Results are saved with `to_csv`, or `to_excel` for Excel files:
 
 ``` python
->>> table.round(1).to_csv("summary.csv")
->>> table.round(1).to_excel("summary.xlsx")
+table.round(1).to_csv("summary.csv")
+table.round(1).to_excel("summary.xlsx")
 ```
 
 ### Reading a pandas error
@@ -276,19 +282,19 @@ Results are saved with `to_csv`, or `to_excel` for Excel files:
 A typo in a column name gives a long error message:
 
 ``` python
->>> df["Yield"]
-Traceback (most recent call last):
-  File ".../pandas/core/indexes/base.py", line 3641, in get_loc
-    return self._engine.get_loc(casted_key)
-  ...
-KeyError: 'Yield'
+df["Yield"]
+# Traceback (most recent call last):
+#   File ".../pandas/core/indexes/base.py", line 3641, in get_loc
+#     return self._engine.get_loc(casted_key)
+#   ...
+# KeyError: 'Yield'
 
-The above exception was the direct cause of the following exception:
+# The above exception was the direct cause of the following exception:
 
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  ...
-KeyError: 'Yield'
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+#   ...
+# KeyError: 'Yield'
 ```
 
 As usual, the **last line** says it all: there is no column `'Yield'` (the
@@ -408,23 +414,23 @@ The `assert` statement checks that a condition is true. If it is, nothing
 happens; otherwise, Python raises an `AssertionError`:
 
 ``` python
->>> assert 1 + 1 == 2
->>> assert 0.1 + 0.2 == 0.3
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-AssertionError
+assert 1 + 1 == 2
+assert 0.1 + 0.2 == 0.3
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# AssertionError
 ```
 
 Remember the floating point lesson: never compare floats with `==`. Use
 `pytest.approx` or `numpy.isclose`, which allow a small tolerance:
 
 ``` python
->>> import pytest
->>> 0.1 + 0.2 == pytest.approx(0.3)
-True
->>> import numpy as np
->>> np.isclose(0.1 + 0.2, 0.3)
-np.True_
+import pytest
+0.1 + 0.2 == pytest.approx(0.3)
+# True
+import numpy as np
+np.isclose(0.1 + 0.2, 0.3)
+# np.True_
 ```
 
 ### Writing tests with pytest
@@ -870,12 +876,12 @@ Was it worth it? In IPython, Spyder or JupyterLab, compare the two versions on
 a 100×100 grid:
 
 ``` python
-In [1]: import numpy as np
-In [2]: from life import step, step_numpy
-In [3]: Z = np.random.default_rng(0).integers(0, 2, size=(100, 100))
-In [4]: L = Z.tolist()
-In [5]: %timeit step(L)
-In [6]: %timeit step_numpy(Z)
+import numpy as np
+from life import step, step_numpy
+Z = np.random.default_rng(0).integers(0, 2, size=(100, 100))
+L = Z.tolist()
+%timeit step(L)
+%timeit step_numpy(Z)
 ```
 
 The numpy version is typically **about 50 times faster**.
@@ -1003,25 +1009,25 @@ each pair (operator, catalyst).
 <details><summary>Answer</summary>
 
 ``` python
->>> df.groupby("operator")["yield"].mean().round(1)
-operator
-Ana      63.8
-Ben      71.8
-Chloé    68.4
-Name: yield, dtype: float64
->>> pd.crosstab(df["operator"], df["catalyst"])
-catalyst   A  B  C
-operator
-Ana       11  1  7
-Ben        4  9  5
-Chloé      8  8  7
->>> df.pivot_table(values="yield", index="operator", columns="catalyst",
-...                aggfunc="mean").round(1)
-catalyst     A     B     C
-operator
-Ana       65.6  70.1  59.5
-Ben       65.4  76.1  69.4
-Chloé     65.6  73.1  66.7
+df.groupby("operator")["yield"].mean().round(1)
+# operator
+# Ana      63.8
+# Ben      71.8
+# Chloé    68.4
+# Name: yield, dtype: float64
+pd.crosstab(df["operator"], df["catalyst"])
+# catalyst   A  B  C
+# operator
+# Ana       11  1  7
+# Ben        4  9  5
+# Chloé      8  8  7
+df.pivot_table(values="yield", index="operator", columns="catalyst",
+               aggfunc="mean").round(1)
+# catalyst     A     B     C
+# operator
+# Ana       65.6  70.1  59.5
+# Ben       65.4  76.1  69.4
+# Chloé     65.6  73.1  66.7
 ```
 
 Ben used the best catalyst (B) much more often than Ana, who used it only
@@ -1037,13 +1043,13 @@ generator gives no role at all to the operator!)
 <details><summary>Answer</summary>
 
 ``` python
->>> df["date"] = pd.to_datetime(df["date"])
->>> df.groupby(df["date"].dt.month)["yield"].mean().round(1)
-date
-1    67.7
-2    66.6
-3    69.9
-Name: yield, dtype: float64
+df["date"] = pd.to_datetime(df["date"])
+df.groupby(df["date"].dt.month)["yield"].mean().round(1)
+# date
+# 1    67.7
+# 2    66.6
+# 3    69.9
+# Name: yield, dtype: float64
 ```
 
 Once converted, a date column gives access to `.dt.year`, `.dt.month`,
@@ -1056,12 +1062,12 @@ temperature and yield).
 <details><summary>Answer</summary>
 
 ``` python
->>> best = df.groupby("catalyst")["yield"].idxmax()
->>> df.loc[best, ["catalyst", "sample", "temperature", "yield"]]
-   catalyst sample  temperature  yield
-46        A   S047           80   75.9
-48        B   S049           80   88.9
-57        C   S058           80   73.3
+best = df.groupby("catalyst")["yield"].idxmax()
+df.loc[best, ["catalyst", "sample", "temperature", "yield"]]
+#    catalyst sample  temperature  yield
+# 46        A   S047           80   75.9
+# 48        B   S049           80   88.9
+# 57        C   S058           80   73.3
 ```
 
 `idxmax` gives the index (row label) of the maximum in each group, and
