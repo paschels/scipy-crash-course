@@ -71,8 +71,8 @@ previous lessons (*File > Open*) and run it with the green *Run* button or the
 `F5` key:
 
 ``` python
-In [1]: runfile('.../python-course/script.py', wdir='.../python-course')
-Area: 6
+runfile('.../python-course/script.py', wdir='.../python-course')
+# Area: 6
 ```
 
 Look at the console: it is an **IPython** shell, the same one you used before.
@@ -94,10 +94,10 @@ and press `Shift+Enter` to run it. Results and figures appear just below the
 cell, and you can add text cells (*Markdown*) to explain what you do.
 
 ``` python
-[1]: print("Hello world!")
-     Hello world!
-[2]: %run script.py
-     Area: 6
+print("Hello world!")
+# Hello world!
+%run script.py
+# Area: 6
 ```
 
 Each notebook is backed by an IPython *kernel*: once again, the same Python
@@ -110,9 +110,9 @@ To convince yourself that it is always the same Python, type these two lines
 in the Python shell, in the Spyder console and in a notebook:
 
 ``` python
->>> import sys
->>> print(sys.executable)
-/home/user/miniforge3/envs/sci/bin/python
+import sys
+print(sys.executable)
+# /home/user/miniforge3/envs/sci/bin/python
 ```
 
 You should get the same path everywhere (on Windows, something like
@@ -125,17 +125,23 @@ exploring data step by step. Everything also works from the shell.
 Computing with numpy
 -------------------------------------------------------------------------------
 
+> **Copying the examples**: the code blocks of this lesson can be pasted
+> directly in IPython, Spyder or a notebook. The results are shown as comments
+> (lines starting with `#`). Note that a notebook cell only displays the value
+> of its **last** line: to see every result, run the lines one at a time, or
+> wrap them in `print(...)`.
+
 ### Why numpy?
 
 Python lists are flexible, but they are not made for computing:
 
 ``` python
->>> [1, 2, 3] * 2
-[1, 2, 3, 1, 2, 3]
->>> [1, 2, 3] + 1
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: can only concatenate list (not "int") to list
+[1, 2, 3] * 2
+# [1, 2, 3, 1, 2, 3]
+[1, 2, 3] + 1
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# TypeError: can only concatenate list (not "int") to list
 ```
 
 To multiply each element by 2, you would need a loop. [numpy] provides a new
@@ -143,53 +149,53 @@ type, the **array**, on which operations apply to every element at once, and
 much faster than a loop. By convention, numpy is imported as `np`:
 
 ``` python
->>> import numpy as np
->>> a = np.array([1, 2, 3])
->>> a * 2
-array([2, 4, 6])
->>> a + 1
-array([2, 3, 4])
->>> a ** 2
-array([1, 4, 9])
+import numpy as np
+a = np.array([1, 2, 3])
+a * 2
+# array([2, 4, 6])
+a + 1
+# array([2, 3, 4])
+a ** 2
+# array([1, 4, 9])
 ```
 
 ### Creating arrays
 
 ``` python
->>> np.array([1, 2, 3])        # from a list
-array([1, 2, 3])
->>> np.arange(0, 10, 2)        # like range, but gives an array
-array([0, 2, 4, 6, 8])
->>> np.linspace(0, 1, 5)       # 5 values evenly spaced from 0 to 1 (included)
-array([0.  , 0.25, 0.5 , 0.75, 1.  ])
->>> np.zeros(3)
-array([0., 0., 0.])
->>> np.ones((2, 3))            # 2 rows, 3 columns
-array([[1., 1., 1.],
-       [1., 1., 1.]])
+np.array([1, 2, 3])        # from a list
+# array([1, 2, 3])
+np.arange(0, 10, 2)        # like range, but gives an array
+# array([0, 2, 4, 6, 8])
+np.linspace(0, 1, 5)       # 5 values evenly spaced from 0 to 1 (included)
+# array([0.  , 0.25, 0.5 , 0.75, 1.  ])
+np.zeros(3)
+# array([0., 0., 0.])
+np.ones((2, 3))            # 2 rows, 3 columns
+# array([[1., 1., 1.],
+#        [1., 1., 1.]])
 ```
 
 Random numbers are obtained from a *generator*. Giving it a *seed* makes the
 results reproducible (you'll get exactly the same numbers as below):
 
 ``` python
->>> rng = np.random.default_rng(42)
->>> rng.integers(0, 2, size=(3, 4))     # random integers 0 or 1
-array([[0, 1, 1, 0],
-       [0, 1, 0, 1],
-       [0, 0, 1, 1]])
->>> rng.normal(0, 1, size=3).round(3)  # normal distribution, mean 0, std 1
-array([ 0.128, -0.316, -0.017])
+rng = np.random.default_rng(42)
+rng.integers(0, 2, size=(3, 4))     # random integers 0 or 1
+# array([[0, 1, 1, 0],
+#        [0, 1, 0, 1],
+#        [0, 0, 1, 1]])
+rng.normal(0, 1, size=3).round(3)  # normal distribution, mean 0, std 1
+# array([ 0.128, -0.316, -0.017])
 ```
 
 Unlike lists, all the elements of an array have the same type, called its
 `dtype`:
 
 ``` python
->>> np.array([1, 2.5])
-array([1. , 2.5])
->>> np.array([1, 2.5]).dtype
-dtype('float64')
+np.array([1, 2.5])
+# array([1. , 2.5])
+np.array([1, 2.5]).dtype
+# dtype('float64')
 ```
 
 ### Shape and dimensions
@@ -198,17 +204,17 @@ Arrays can have several dimensions. A 2D array is a table (or a matrix, or an
 image):
 
 ``` python
->>> m = np.array([[1, 2, 3],
-...               [4, 5, 6]])
->>> m.shape        # (rows, columns)
-(2, 3)
->>> m.ndim         # number of dimensions
-2
->>> m.size         # number of elements
-6
->>> np.arange(6).reshape(2, 3)
-array([[0, 1, 2],
-       [3, 4, 5]])
+m = np.array([[1, 2, 3],
+              [4, 5, 6]])
+m.shape        # (rows, columns)
+# (2, 3)
+m.ndim         # number of dimensions
+# 2
+m.size         # number of elements
+# 6
+np.arange(6).reshape(2, 3)
+# array([[0, 1, 2],
+#        [3, 4, 5]])
 ```
 
 ### Indexing and slicing
@@ -217,15 +223,15 @@ Indexing and slicing work like for lists, with one index per dimension,
 separated by commas:
 
 ``` python
->>> m[0, 1]        # row 0, column 1
-np.int64(2)
->>> m[1]           # row 1
-array([4, 5, 6])
->>> m[:, 0]        # all rows, column 0
-array([1, 4])
->>> m[:, 1:]       # all rows, columns 1 to the end
-array([[2, 3],
-       [5, 6]])
+m[0, 1]        # row 0, column 1
+# np.int64(2)
+m[1]           # row 1
+# array([4, 5, 6])
+m[:, 0]        # all rows, column 0
+# array([1, 4])
+m[:, 1:]       # all rows, columns 1 to the end
+# array([[2, 3],
+#        [5, 6]])
 ```
 
 `np.int64(2)` is simply the number 2, stored as a numpy integer.
@@ -236,16 +242,16 @@ Comparing an array gives an array of booleans, which can be used to **select**
 elements. This is one of the most useful features of numpy:
 
 ``` python
->>> x = np.array([3, 8, 1, 4, 6])
->>> x > 3
-array([False,  True, False,  True,  True])
->>> x[x > 3]                    # elements greater than 3
-array([8, 4, 6])
->>> x[x > 3].size               # how many are greater than 3
-3
->>> x[x > 3] = 0                # set them to 0
->>> x
-array([3, 0, 1, 0, 0])
+x = np.array([3, 8, 1, 4, 6])
+x > 3
+# array([False,  True, False,  True,  True])
+x[x > 3]                    # elements greater than 3
+# array([8, 4, 6])
+x[x > 3].size               # how many are greater than 3
+# 3
+x[x > 3] = 0                # set them to 0
+x
+# array([3, 0, 1, 0, 0])
 ```
 
 Conditions are combined with `&` (and), `|` (or) and `~` (not), with
@@ -256,11 +262,11 @@ parentheses: `x[(x > 2) & (x < 7)]`.
 numpy provides the usual mathematical functions, which apply to every element:
 
 ``` python
->>> np.sin(np.pi / 2)
-np.float64(1.0)
->>> t = np.linspace(0, 2 * np.pi, 5)
->>> np.cos(t).round(3)
-array([ 1.,  0., -1., -0.,  1.])
+np.sin(np.pi / 2)
+# np.float64(1.0)
+t = np.linspace(0, 2 * np.pi, 5)
+np.cos(t).round(3)
+# array([ 1.,  0., -1., -0.,  1.])
 ```
 
 and many statistics. With 2D arrays, the `axis` argument tells along which
@@ -268,24 +274,24 @@ dimension to compute (`axis=0`: down the rows, giving one result per column;
 `axis=1`: across the columns, giving one result per row):
 
 ``` python
->>> m = np.array([[1, 2, 3], [4, 5, 6]])
->>> m.sum()
-np.int64(21)
->>> m.sum(axis=0)    # sum of each column
-array([5, 7, 9])
->>> m.sum(axis=1)    # sum of each row
-array([ 6, 15])
->>> m.mean(), m.min(), m.max()
-(np.float64(3.5), np.int64(1), np.int64(6))
+m = np.array([[1, 2, 3], [4, 5, 6]])
+m.sum()
+# np.int64(21)
+m.sum(axis=0)    # sum of each column
+# array([5, 7, 9])
+m.sum(axis=1)    # sum of each row
+# array([ 6, 15])
+m.mean(), m.min(), m.max()
+# (np.float64(3.5), np.int64(1), np.int64(6))
 ```
 
 Remember the `stats` exercise of the previous lesson, with its two loops? With
 numpy:
 
 ``` python
->>> data = np.array([2, 4, 4, 4, 5, 5, 7, 9])
->>> np.mean(data), np.std(data)
-(np.float64(5.0), np.float64(2.0))
+data = np.array([2, 4, 4, 4, 5, 5, 7, 9])
+np.mean(data), np.std(data)
+# (np.float64(5.0), np.float64(2.0))
 ```
 
 ### Operations between arrays
@@ -293,8 +299,8 @@ numpy:
 Operations between two arrays of the same shape are done element by element:
 
 ``` python
->>> np.array([1, 2, 3]) + np.array([10, 20, 30])
-array([11, 22, 33])
+np.array([1, 2, 3]) + np.array([10, 20, 30])
+# array([11, 22, 33])
 ```
 
 When shapes differ, numpy tries to **broadcast** them, i.e. to repeat the
@@ -302,18 +308,18 @@ smaller array to match the larger one. This works for example between a
 2D array and a row:
 
 ``` python
->>> m + np.array([10, 20, 30])
-array([[11, 22, 33],
-       [14, 25, 36]])
+m + np.array([10, 20, 30])
+# array([[11, 22, 33],
+#        [14, 25, 36]])
 ```
 
 When shapes are not compatible, you get an error worth reading carefully:
 
 ``` python
->>> np.array([1, 2, 3]) + np.array([1, 2])
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-ValueError: operands could not be broadcast together with shapes (3,) (2,)
+np.array([1, 2, 3]) + np.array([1, 2])
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# ValueError: operands could not be broadcast together with shapes (3,) (2,)
 ```
 
 The message gives the two shapes: here, 3 elements and 2 elements. Most numpy
@@ -325,11 +331,11 @@ Be careful: assigning an array to another name does **not** copy it. Both
 names refer to the same data:
 
 ``` python
->>> a = np.array([1, 2, 3])
->>> b = a
->>> b[0] = 100
->>> a
-array([100,   2,   3])
+a = np.array([1, 2, 3])
+b = a
+b[0] = 100
+a
+# array([100,   2,   3])
 ```
 
 Use `b = a.copy()` when you need an independent copy.
@@ -341,10 +347,10 @@ numpy operations are run by compiled code, without Python loops. In IPython
 time of a line. Compare:
 
 ``` python
-In [1]: numbers = list(range(1_000_000))
-In [2]: %timeit [x * 2 for x in numbers]
-In [3]: a = np.arange(1_000_000)
-In [4]: %timeit a * 2
+numbers = list(range(1_000_000))
+%timeit [x * 2 for x in numbers]
+a = np.arange(1_000_000)
+%timeit a * 2
 ```
 
 The numpy version is typically **tens of times faster**. Rule of thumb: with
@@ -428,19 +434,19 @@ its code.
 Errors raised inside a library produce long tracebacks:
 
 ``` python
->>> x = np.linspace(0, 1, 50)
->>> plt.plot(x, x[1:])
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File ".../matplotlib/pyplot.py", line 4043, in plot
-    return gca().plot(
-           ^^^^^^^^^^^
-  File ".../matplotlib/axes/_axes.py", line 1792, in plot
-    lines = [*self._get_lines(self, *args, data=data, **kwargs)]
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ".../matplotlib/axes/_base.py", line 509, in _plot_args
-    raise ValueError(f"x and y must have same first dimension, but "
-ValueError: x and y must have same first dimension, but have shapes (50,) and (49,)
+x = np.linspace(0, 1, 50)
+plt.plot(x, x[1:])
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+#   File ".../matplotlib/pyplot.py", line 4043, in plot
+#     return gca().plot(
+#            ^^^^^^^^^^^
+#   File ".../matplotlib/axes/_axes.py", line 1792, in plot
+#     lines = [*self._get_lines(self, *args, data=data, **kwargs)]
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#   File ".../matplotlib/axes/_base.py", line 509, in _plot_args
+#     raise ValueError(f"x and y must have same first dimension, but "
+# ValueError: x and y must have same first dimension, but have shapes (50,) and (49,)
 ```
 
 Don't panic. As usual, read the **last line**: `x` has 50 elements and `y` 49.
