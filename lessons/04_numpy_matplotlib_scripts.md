@@ -78,6 +78,8 @@ runfile('.../python-course/script.py', wdir='.../python-course')
 Look at the console: it is an **IPython** shell, the same one you used before.
 Spyder simply ran your script in it for you, exactly like `%run script.py`.
 
+> **Note**: To change keyboard shortcuts in Spyder, go to **Tools > Preferences > Keyboard shortcuts**. You’ll see the full list of actions with their current shortcuts; there’s a > search box at the top to find one quickly (for example, type “run cell”). Double-click > the shortcut you want to change, press the new key combination, and click OK.
+
 ### JupyterLab
 
 Go to your course folder and start JupyterLab:
