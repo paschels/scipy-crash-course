@@ -45,7 +45,7 @@ needed):
 
 ``` bash
 (base) $ conda activate sci
-(sci) $ conda install spyder jupyterlab ipykernel spyder-kernels
+(sci) $ conda install -c conda-forge python=3.12 spyder jupyterlab ipykernel spyder-kernels
 ...
 Proceed ([y]/n)? y
 ...
